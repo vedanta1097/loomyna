@@ -7,7 +7,7 @@ export const heroSlides: HeroSlide[] = [
     mobileImage: "/assets/banners/mobile/hero-banner.jpg",
     imageAlt:
       "Two women by the sea wearing soft blue and butter yellow Loomyna tops",
-    ctaLabel: "Shop the collection",
+    ctaLabel: "Shop now",
     ctaHref: "#shop",
   },
 ];
