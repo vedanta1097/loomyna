@@ -1,0 +1,57 @@
+Primary Loomyna logo, preferably SVG:
+- in required-assets/logo.svg
+
+Compact logo mark or favicon, preferably SVG or a large PNG:
+- in required-assets/favicon.svg
+
+Brand color palette, including background, text, accent, and button colors: 
+- just use combination of butter yellow and blue (e.g. #faf4eb, #f1dd71, #004aad). color code dont need to be exactly the same as example that I provide. it's just a reference. just make it as good as you can.
+
+Preferred fonts or approval to select suitable fonts:
+- i trust you, just use the best font you think
+
+Short description of the intended brand personality:
+- we create a cute sports wear for yoga (we also sell non yoga clothes), use soft cheerfull color like pink, butter yellow, baby blue, when you see our clothes, you will think bright sunshine cheerfull cute girl
+
+At least one desktop and one mobile banner image
+- can be found in required-assets/hero
+
+products:
+- name: Halter neck, 
+    price: 120,000, 
+    main images: required-assets/products/halter-neck.jpeg, 
+    colors: butter yellow (#FFEDA8), 
+    sizes: all size, 
+    availability: available,
+    Shopee URL: not available yet
+- name: Linen pants, 
+    price: 120,000, 
+    main images: required-assets/products/linen-pants.jpeg, 
+    colors: butter yellow (#FFEDA8), 
+    sizes: all size, 
+    availability: available,
+    Shopee URL: not available yet
+- name: Rib halter neck, 
+    price: 120,000, 
+    main images: required-assets/products/rib-halter-neck.jpeg, 
+    colors: white, 
+    sizes: all size, 
+    availability: available,
+    Shopee URL: not available yet
+- name: Loomy crop top, 
+    price: 80,000, 
+    main images: required-assets/products/loomy-crop-top.jpeg, 
+    colors: black, beige, white, 
+    sizes: all size, 
+    availability: available,
+    Shopee URL: not available yet
+- name: Loomy inner top, 
+    price: 80,000, 
+    main images: required-assets/products/loomy-inner-top.jpeg, 
+    colors: black, beige, white, 
+    sizes: all size, 
+    availability: available,
+    Shopee URL: not available yet
+
+WhatsApp number with country code: +62 877-7778-4634
+
