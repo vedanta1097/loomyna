@@ -163,6 +163,12 @@ summary:focus-visible {
   justify-self: start;
 }
 
+.mobile-menu-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+}
+
 .icon-button {
   display: grid;
   width: 44px;
@@ -184,28 +190,54 @@ summary:focus-visible {
 }
 
 .menu-scrim {
-  position: fixed;
+  position: absolute;
   inset: 0;
-  z-index: 31;
+  z-index: 0;
   border: 0;
   background: rgba(16, 38, 78, 0.28);
   backdrop-filter: blur(4px);
 }
 
 .menu-drawer {
-  position: fixed;
+  position: absolute;
   inset: 0 auto 0 0;
-  z-index: 32;
+  z-index: 1;
   display: flex;
-  width: min(86vw, 390px);
+  width: min(88vw, 390px);
+  height: 100dvh;
   flex-direction: column;
-  gap: 8px;
-  padding: 110px 28px 30px;
+  padding: 20px 24px 24px;
   background: var(--cream);
   box-shadow: var(--shadow);
+  animation: menu-slide-in 220ms cubic-bezier(.2,.75,.25,1) both;
 }
 
-.menu-drawer > a:not(.button) {
+.menu-drawer-header {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.menu-drawer-header img {
+  width: 148px;
+  height: auto;
+}
+
+.menu-close {
+  flex: 0 0 auto;
+}
+
+.menu-drawer nav {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  padding-top: clamp(40px, 10vh, 88px);
+}
+
+.menu-drawer nav > a:not(.button) {
   padding: 12px 0;
   border-bottom: 1px solid var(--line);
   color: var(--blue-deep);
@@ -215,6 +247,15 @@ summary:focus-visible {
 
 .menu-contact {
   margin-top: auto;
+}
+
+@keyframes menu-slide-in {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 .button {
