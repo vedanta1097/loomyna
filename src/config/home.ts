@@ -2,9 +2,9 @@ import type { HeroSlide } from "@/types/product";
 
 export const heroSlides: HeroSlide[] = [
   {
-    id: "summer-edit",
-    desktopImage: "/assets/banners/desktop/summer-edit.jpg",
-    mobileImage: "/assets/banners/mobile/summer-edit.jpg",
+    id: "hero-banner",
+    desktopImage: "/assets/banners/desktop/hero-banner.jpg",
+    mobileImage: "/assets/banners/mobile/hero-banner.jpg",
     imageAlt:
       "Two women by the sea wearing soft blue and butter yellow Loomyna tops",
     ctaLabel: "Shop the edit",

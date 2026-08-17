@@ -19,15 +19,19 @@ export const metadata: Metadata = {
     siteName: "Loomyna",
     title: "Loomyna — Made for brighter days",
     description: siteConfig.description,
-    images: ["/assets/banners/desktop/summer-edit.jpg"],
+    images: ["/assets/banners/desktop/hero-banner.jpg"],
   },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body>
-        <a className="skip-link" href="#main-content">Skip to content</a>
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
         <AnnouncementBar />
         <Header />
         <main id="main-content">{children}</main>
