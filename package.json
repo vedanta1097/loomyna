@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@vercel/analytics": "latest",
+    "@vercel/speed-insights": "^2.0.0",
     "embla-carousel-autoplay": "latest",
     "embla-carousel-react": "latest",
     "next": "latest",
