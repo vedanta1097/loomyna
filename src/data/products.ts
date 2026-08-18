@@ -6,7 +6,7 @@ type ProductSeed = {
   name: string;
   price: number;
   category: "Tops" | "Bottoms";
-  image: { width: number; height: number };
+  image: { width: number; height: number; blurDataURL: string };
   colors: { name: string; slug: string; hex: string }[];
   blurb: string;
   badge?: "new" | "featured" | "bestseller";
@@ -18,7 +18,11 @@ const seeds: ProductSeed[] = [
     name: "Halter Neck",
     price: 120000,
     category: "Tops",
-    image: { width: 1846, height: 2307 },
+    image: {
+      width: 1600,
+      height: 2000,
+      blurDataURL: "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAAAwAwCdASoQABQAPu1iqU2ppaOiMAgBMB2JY2VuVp4b8brAAP7sqa712fbgdYefUwRQyfFzamaFthPyjeZbpJF8tJLvH0MwKt+dgAAA",
+    },
     colors: [{ name: "Butter Yellow", slug: "butter-yellow", hex: "#FFEDA8" }],
     blurb: "A sweet halter silhouette for stretches, seaside walks, and everything after.",
     badge: "featured",
@@ -28,7 +32,11 @@ const seeds: ProductSeed[] = [
     name: "Linen Pants",
     price: 120000,
     category: "Bottoms",
-    image: { width: 2279, height: 2849 },
+    image: {
+      width: 1600,
+      height: 2000,
+      blurDataURL: "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAABwAwCdASoQABQAPu1orU6ppiSiMAgBMB2JZQCdMoAE7hbx9AAA/urCehZdw+DyPlpB06PcL84KsQp+7atkewNhnPzCzUYz7TiXNOmAAAA=",
+    },
     colors: [{ name: "Butter Yellow", slug: "butter-yellow", hex: "#FFEDA8" }],
     blurb: "An easy, airy shape that brings a little sunshine to everyday dressing.",
     badge: "new",
@@ -38,7 +46,11 @@ const seeds: ProductSeed[] = [
     name: "Rib Halter Neck",
     price: 120000,
     category: "Tops",
-    image: { width: 3164, height: 3955 },
+    image: {
+      width: 1600,
+      height: 2000,
+      blurDataURL: "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAACQAwCdASoQABQAPu1iqk2ppaQiMAgBMB2JZ12AVpATjtLkEiagAP7sGhGA/u8mINtYeS0w3FyFkujTpBvIgwolEqisxUhdbX2Y9WELrvf2YAAA",
+    },
     colors: [{ name: "White", slug: "white", hex: "#FFFFFF" }],
     blurb: "A clean ribbed halter made for pairing, layering, and moving freely.",
   },
@@ -47,7 +59,11 @@ const seeds: ProductSeed[] = [
     name: "Loomy Crop Top",
     price: 80000,
     category: "Tops",
-    image: { width: 2419, height: 3024 },
+    image: {
+      width: 1600,
+      height: 2000,
+      blurDataURL: "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAACwAwCdASoQABQAPu1iqU2ppaOiMAgBMB2JZQC7ACHusNDWv6kEAAD+trjm9SPT6nN8MLi9g3x32mhjZ1j1q28ogxFkiVR0xkQOk1eU5w0VmLkwu9JavWc14NbjzuytUP24hAAA",
+    },
     colors: [
       { name: "Black", slug: "black", hex: "#171717" },
       { name: "Beige", slug: "beige", hex: "#D8C7AF" },
@@ -61,7 +77,11 @@ const seeds: ProductSeed[] = [
     name: "Loomy Inner Top",
     price: 80000,
     category: "Tops",
-    image: { width: 2413, height: 3017 },
+    image: {
+      width: 1600,
+      height: 2000,
+      blurDataURL: "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAAAwBACdASoQABQAPu1iqU2ppaOiMAgBMB2JZQCdMoFWAAS6oKZVVQL01AAA/t7fhXKBmtVkyiSX4nX0dNNc5pS5PU1l3zTPnIRBAv0EISK94iEbrsKZPNpgQDV2ovRgtkuL63Dl6AiJBDoCWCkorwAA",
+    },
     colors: [
       { name: "Black", slug: "black", hex: "#171717" },
       { name: "Beige", slug: "beige", hex: "#D8C7AF" },
@@ -125,10 +145,11 @@ export const products: Product[] = seeds.map((seed) => ({
       color.slug,
       [
         {
-          src: `/assets/products/${seed.slug}/main.jpeg`,
+          src: `/assets/products/${seed.slug}/main-v1.webp`,
           alt: `${seed.name} in ${color.name}, product view`,
           width: seed.image.width,
           height: seed.image.height,
+          blurDataURL: seed.image.blurDataURL,
         },
       ],
     ]),

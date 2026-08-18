@@ -5,6 +5,7 @@ export type ProductImage = {
   alt: string;
   width: number;
   height: number;
+  blurDataURL?: string;
 };
 
 export type ProductVariant = {
@@ -39,8 +40,16 @@ export type Product = {
 
 export type HeroSlide = {
   id: string;
-  desktopImage: string;
-  mobileImage: string;
+  desktopImage: {
+    src: string;
+    width: number;
+    height: number;
+  };
+  mobileImage: {
+    src: string;
+    width: number;
+    height: number;
+  };
   imageAlt: string;
   ctaLabel?: string;
   ctaHref?: string;

@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { getImageProps } from "next/image";
 import Link from "next/link";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
@@ -33,32 +33,49 @@ export function HeroCarousel({
     <section className="hero" aria-roledescription="carousel" aria-label={labels.campaignLabel}>
       <div className="hero-viewport" ref={emblaRef}>
         <div className="hero-container">
-          {slides.map((slide, index) => (
-            <div
-              className="hero-slide"
-              key={slide.id}
-              role="group"
-              aria-roledescription={labels.slide}
-              aria-label={`${index + 1} ${labels.of} ${slides.length}`}
-            >
-              <picture>
-                <source media="(max-width: 699px)" srcSet={slide.mobileImage} />
-                <Image
-                  src={slide.desktopImage}
-                  alt={slide.imageAlt}
-                  fill
-                  preload={index === 0}
-                  sizes="100vw"
-                />
-              </picture>
-              {slide.ctaLabel && slide.ctaHref ? (
-                <Link className="button hero-cta" href={slide.ctaHref}>
-                  {slide.ctaLabel}
-                  <ArrowIcon />
-                </Link>
-              ) : null}
-            </div>
-          ))}
+          {slides.map((slide, index) => {
+            const {
+              props: { srcSet: desktopSrcSet },
+            } = getImageProps({
+              src: slide.desktopImage.src,
+              alt: slide.imageAlt,
+              width: slide.desktopImage.width,
+              height: slide.desktopImage.height,
+              sizes: "100vw",
+            });
+            const {
+              props: { srcSet: mobileSrcSet, ...mobileImageProps },
+            } = getImageProps({
+              src: slide.mobileImage.src,
+              alt: slide.imageAlt,
+              width: slide.mobileImage.width,
+              height: slide.mobileImage.height,
+              sizes: "100vw",
+              fetchPriority: index === 0 ? "high" : undefined,
+              loading: index === 0 ? "eager" : "lazy",
+            });
+
+            return (
+              <div
+                className="hero-slide"
+                key={slide.id}
+                role="group"
+                aria-roledescription={labels.slide}
+                aria-label={`${index + 1} ${labels.of} ${slides.length}`}
+              >
+                <picture>
+                  <source media="(min-width: 700px)" srcSet={desktopSrcSet} />
+                  <img {...mobileImageProps} alt={slide.imageAlt} srcSet={mobileSrcSet} />
+                </picture>
+                {slide.ctaLabel && slide.ctaHref ? (
+                  <Link className="button hero-cta" href={slide.ctaHref}>
+                    {slide.ctaLabel}
+                    <ArrowIcon />
+                  </Link>
+                ) : null}
+              </div>
+            );
+          })}
         </div>
       </div>
       {slides.length > 1 ? (

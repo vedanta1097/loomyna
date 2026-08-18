@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Poppins } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
@@ -8,6 +9,13 @@ import { siteConfig } from "@/config/site";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getLocale } from "@/i18n/server";
 import "./globals.css";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+  variable: "--font-poppins",
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   const dictionary = getDictionary(await getLocale());
@@ -37,7 +45,7 @@ export default async function RootLayout({
   const dictionary = getDictionary(locale);
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className={poppins.variable}>
       <body>
         <a className="skip-link" href="#main-content">
           {dictionary.skipToContent}

@@ -3,8 +3,16 @@ import type { HeroSlide } from "@/types/product";
 export const heroSlides: HeroSlide[] = [
   {
     id: "hero-banner",
-    desktopImage: "/assets/banners/desktop/hero-banner.jpg",
-    mobileImage: "/assets/banners/mobile/hero-banner.jpg",
+    desktopImage: {
+      src: "/assets/banners/desktop/hero-banner-v1.webp",
+      width: 1920,
+      height: 1014,
+    },
+    mobileImage: {
+      src: "/assets/banners/mobile/hero-banner-v1.webp",
+      width: 1440,
+      height: 2280,
+    },
     imageAlt:
       "Two women by the sea wearing soft blue and butter yellow Loomyna tops",
   },

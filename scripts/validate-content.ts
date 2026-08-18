@@ -44,8 +44,8 @@ for (const product of products) {
 }
 
 for (const slide of heroSlides) {
-  if (!assetExists(slide.desktopImage)) errors.push(`Missing ${slide.desktopImage}`);
-  if (!assetExists(slide.mobileImage)) errors.push(`Missing ${slide.mobileImage}`);
+  if (!assetExists(slide.desktopImage.src)) errors.push(`Missing ${slide.desktopImage.src}`);
+  if (!assetExists(slide.mobileImage.src)) errors.push(`Missing ${slide.mobileImage.src}`);
 }
 
 for (const section of homeSections) {

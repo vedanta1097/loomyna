@@ -24,6 +24,8 @@ export function ProductCard({
           src={image.src}
           alt={image.alt}
           fill
+          placeholder={image.blurDataURL ? "blur" : "empty"}
+          blurDataURL={image.blurDataURL}
           sizes="(max-width: 699px) 50vw, (max-width: 1100px) 33vw, 25vw"
         />
         {product.badges?.[0] ? (

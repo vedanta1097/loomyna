@@ -75,6 +75,8 @@ export function ProductDetail({
             alt={images[activeImage].alt}
             fill
             preload
+            placeholder={images[activeImage].blurDataURL ? "blur" : "empty"}
+            blurDataURL={images[activeImage].blurDataURL}
             sizes="(max-width: 899px) 100vw, 58vw"
           />
           {images.length > 1 ? (
@@ -106,7 +108,14 @@ export function ProductDetail({
                 aria-label={`${labels.viewImage} ${index + 1}`}
                 onClick={() => setActiveImage(index)}
               >
-                <Image src={image.src} alt="" fill sizes="88px" />
+                <Image
+                  src={image.src}
+                  alt=""
+                  fill
+                  placeholder={image.blurDataURL ? "blur" : "empty"}
+                  blurDataURL={image.blurDataURL}
+                  sizes="88px"
+                />
               </button>
             ))}
           </div>

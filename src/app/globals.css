@@ -39,7 +39,7 @@ body {
   margin: 0;
   background: var(--cream);
   color: var(--ink);
-  font-family: "Avenir Next", Avenir, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: var(--font-poppins), sans-serif;
   font-size: 16px;
   line-height: 1.5;
   text-rendering: optimizeLegibility;
@@ -389,6 +389,8 @@ summary:focus-visible {
 }
 
 .hero-slide img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
