@@ -33,7 +33,7 @@ export const homeSections = [
   {
     id: "shop",
     eyebrow: "Freshly picked",
-    title: "Meet your sunny-day uniform",
+    title: "Meet your sunny-day staples",
     description:
       "Soft colors, sweet silhouettes, and easy pieces to stretch, stroll, and live in.",
     productSlugs: [

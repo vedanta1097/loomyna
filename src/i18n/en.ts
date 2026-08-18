@@ -1,7 +1,8 @@
 const en = {
   metadata: {
     title: "Loomyna — Made for brighter days",
-    description: "Cheerful, easy-to-wear pieces for yoga, slow mornings, and sun-filled days.",
+    description:
+      "Cheerful, easy-to-wear pieces for yoga, slow mornings, and sun-filled days.",
   },
   skipToContent: "Skip to content",
   announcement: "A little sunshine, made to move with you ☀",
@@ -41,19 +42,27 @@ const en = {
     previousSlide: "Previous slide",
     nextSlide: "Next slide",
     goToSlide: "Go to slide",
-    heroAlt: "Two women by the sea wearing soft blue and butter yellow Loomyna tops",
+    heroAlt:
+      "Two women by the sea wearing soft blue and butter yellow Loomyna tops",
     sectionEyebrow: "Freshly picked",
-    sectionTitle: "Meet your sunny-day uniform",
-    sectionDescription: "Soft colors, sweet silhouettes, and easy pieces to stretch, stroll, and live in.",
+    sectionTitle: "Meet your sunny-day staples",
+    sectionDescription:
+      "Soft colors, sweet silhouettes, and easy pieces to stretch, stroll, and live in.",
     feelingEyebrow: "The Loomyna feeling",
     feelingTitle: "Movement should feel like play.",
-    feelingDescription: "We make cheerful little staples for yoga mornings, coffee walks, and wherever the sun takes you next.",
+    feelingDescription:
+      "We make cheerful little staples for yoga mornings, coffee walks, and wherever the sun takes you next.",
     sunnyEyebrow: "Soft. Sunny. Yours.",
     sunnyTitle: "Wear the good mood.",
     explorePieces: "Explore all pieces",
   },
   productCard: {
-    badges: { new: "New", featured: "Our pick", bestseller: "Loved", soldOut: "Sold out" },
+    badges: {
+      new: "New",
+      featured: "Our pick",
+      bestseller: "Loved",
+      soldOut: "Sold out",
+    },
     viewPiece: "View piece",
     availableColors: "Available colors",
   },
@@ -88,7 +97,8 @@ const en = {
     preOrderWhatsApp: "Pre-order via WhatsApp",
     buyShopee: "Buy on Shopee",
     shopeeSoon: "Shopee — coming soon",
-    checkoutNote: "Opening WhatsApp starts a chat; your order is confirmed once our team replies.",
+    checkoutNote:
+      "Opening WhatsApp starts a chat; your order is confirmed once our team replies.",
     details: "Details",
     sizeFit: "Size & fit",
     care: "Care",
