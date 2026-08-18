@@ -11,12 +11,18 @@ import { LanguageSelector } from "./LanguageSelector";
 
 const navigation = [
   { key: "shop", href: "/#shop" },
-  { key: "tops", href: "/#tops" },
-  { key: "bottoms", href: "/#bottoms" },
+  { key: "tops", href: "/#shop" },
+  { key: "bottoms", href: "/#shop" },
   { key: "mood", href: "/#our-mood" },
 ] as const;
 
-export function MobileMenu({ dictionary, locale }: { dictionary: Dictionary; locale: Locale }) {
+export function MobileMenu({
+  dictionary,
+  locale,
+}: {
+  dictionary: Dictionary;
+  locale: Locale;
+}) {
   const [open, setOpen] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -52,52 +58,68 @@ export function MobileMenu({ dictionary, locale }: { dictionary: Dictionary; loc
       </button>
       {open && typeof document !== "undefined"
         ? createPortal(
-          <div className="mobile-menu-layer">
-          <button
-            type="button"
-            className="menu-scrim"
-            aria-label={dictionary.header.closeNavigation}
-            onClick={() => setOpen(false)}
-          />
-          <aside
-            className="menu-drawer"
-            role="dialog"
-            aria-modal="true"
-            aria-label={dictionary.header.menuLabel}
-          >
-            <div className="menu-drawer-header">
-              <Image src="/assets/brand/logo.svg" alt="Loomyna" width={392} height={67} />
+            <div className="mobile-menu-layer">
               <button
-                ref={closeButtonRef}
-                className="icon-button menu-close"
                 type="button"
+                className="menu-scrim"
                 aria-label={dictionary.header.closeNavigation}
                 onClick={() => setOpen(false)}
+              />
+              <aside
+                className="menu-drawer"
+                role="dialog"
+                aria-modal="true"
+                aria-label={dictionary.header.menuLabel}
               >
-                <CloseIcon />
-              </button>
-            </div>
-            <nav id="mobile-navigation" aria-label={dictionary.header.mobileNavigationLabel}>
-              <p className="eyebrow">{dictionary.header.menuEyebrow}</p>
-              {navigation.map((item) => (
-                <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
-                  {dictionary.navigation[item.key]}
-                </Link>
-              ))}
-              <a
-                className="button button-primary menu-contact"
-                href={`https://wa.me/${siteConfig.whatsappNumber}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {dictionary.header.chatWithUs}
-              </a>
-              <LanguageSelector id="mobile-language" labels={dictionary.language} locale={locale} />
-            </nav>
-          </aside>
-          </div>,
-          document.body,
-        )
+                <div className="menu-drawer-header">
+                  <Image
+                    src="/assets/brand/logo.svg"
+                    alt="Loomyna"
+                    width={392}
+                    height={67}
+                  />
+                  <button
+                    ref={closeButtonRef}
+                    className="icon-button menu-close"
+                    type="button"
+                    aria-label={dictionary.header.closeNavigation}
+                    onClick={() => setOpen(false)}
+                  >
+                    <CloseIcon />
+                  </button>
+                </div>
+                <nav
+                  id="mobile-navigation"
+                  aria-label={dictionary.header.mobileNavigationLabel}
+                >
+                  <p className="eyebrow">{dictionary.header.menuEyebrow}</p>
+                  {navigation.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                    >
+                      {dictionary.navigation[item.key]}
+                    </Link>
+                  ))}
+                  <a
+                    className="button button-primary menu-contact"
+                    href={`https://wa.me/${siteConfig.whatsappNumber}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {dictionary.header.chatWithUs}
+                  </a>
+                  <LanguageSelector
+                    id="mobile-language"
+                    labels={dictionary.language}
+                    locale={locale}
+                  />
+                </nav>
+              </aside>
+            </div>,
+            document.body,
+          )
         : null}
     </div>
   );

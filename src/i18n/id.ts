@@ -3,7 +3,8 @@ import type { Dictionary } from "./en";
 const id = {
   metadata: {
     title: "Loomyna — Dibuat untuk hari yang lebih cerah",
-    description: "Koleksi ceria dan nyaman untuk yoga, pagi santai, dan hari-hari penuh sinar matahari.",
+    description:
+      "Koleksi ceria dan nyaman untuk yoga, pagi santai, dan hari-hari penuh sinar matahari.",
   },
   skipToContent: "Lewati ke konten",
   announcement: "Sedikit sinar matahari yang siap bergerak bersamamu ☀",
@@ -43,19 +44,27 @@ const id = {
     previousSlide: "Slide sebelumnya",
     nextSlide: "Slide berikutnya",
     goToSlide: "Buka slide",
-    heroAlt: "Dua perempuan di tepi laut memakai atasan Loomyna biru lembut dan kuning mentega",
+    heroAlt:
+      "Dua perempuan di tepi laut memakai atasan Loomyna biru lembut dan kuning mentega",
     sectionEyebrow: "Pilihan terbaru",
-    sectionTitle: "Kenalan dengan seragam hari cerahmu",
-    sectionDescription: "Warna lembut, siluet manis, dan pakaian nyaman untuk peregangan, jalan santai, dan keseharianmu.",
+    sectionTitle: "Siap menemani hari-hari cerahmu",
+    sectionDescription:
+      "Warna lembut, siluet manis, dan pakaian nyaman untuk peregangan, jalan santai, dan keseharianmu.",
     feelingEyebrow: "Rasa khas Loomyna",
     feelingTitle: "Bergerak seharusnya terasa menyenangkan.",
-    feelingDescription: "Kami membuat koleksi kecil yang ceria untuk pagi yoga, jalan mencari kopi, dan ke mana pun matahari membawamu.",
+    feelingDescription:
+      "Kami membuat koleksi kecil yang ceria untuk pagi yoga, jalan mencari kopi, dan ke mana pun matahari membawamu.",
     sunnyEyebrow: "Lembut. Cerah. Milikmu.",
     sunnyTitle: "Kenakan suasana ceria.",
     explorePieces: "Jelajahi semua koleksi",
   },
   productCard: {
-    badges: { new: "Baru", featured: "Pilihan kami", bestseller: "Favorit", soldOut: "Habis" },
+    badges: {
+      new: "Baru",
+      featured: "Pilihan kami",
+      bestseller: "Favorit",
+      soldOut: "Habis",
+    },
     viewPiece: "Lihat produk",
     availableColors: "Warna tersedia",
   },
@@ -90,7 +99,8 @@ const id = {
     preOrderWhatsApp: "Pre-order lewat WhatsApp",
     buyShopee: "Beli di Shopee",
     shopeeSoon: "Shopee — segera hadir",
-    checkoutNote: "WhatsApp akan membuka percakapan; pesananmu dikonfirmasi setelah tim kami membalas.",
+    checkoutNote:
+      "WhatsApp akan membuka percakapan; pesananmu dikonfirmasi setelah tim kami membalas.",
     details: "Detail",
     sizeFit: "Ukuran & fit",
     care: "Perawatan",

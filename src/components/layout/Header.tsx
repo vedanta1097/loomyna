@@ -8,17 +8,27 @@ import { MobileMenu } from "./MobileMenu";
 
 const navigation = [
   { key: "shop", href: "/#shop" },
-  { key: "tops", href: "/#tops" },
-  { key: "bottoms", href: "/#bottoms" },
+  { key: "tops", href: "/#shop" },
+  { key: "bottoms", href: "/#shop" },
   { key: "mood", href: "/#our-mood" },
 ] as const;
 
-export function Header({ dictionary, locale }: { dictionary: Dictionary; locale: Locale }) {
+export function Header({
+  dictionary,
+  locale,
+}: {
+  dictionary: Dictionary;
+  locale: Locale;
+}) {
   return (
     <header className="site-header">
       <div className="header-inner shell">
         <MobileMenu dictionary={dictionary} locale={locale} />
-        <Link className="brand" href="/" aria-label={dictionary.header.homeLabel}>
+        <Link
+          className="brand"
+          href="/"
+          aria-label={dictionary.header.homeLabel}
+        >
           <Image
             src="/assets/brand/logo.svg"
             alt="Loomyna"
@@ -27,7 +37,10 @@ export function Header({ dictionary, locale }: { dictionary: Dictionary; locale:
             loading="eager"
           />
         </Link>
-        <nav className="desktop-nav" aria-label={dictionary.navigation.mainLabel}>
+        <nav
+          className="desktop-nav"
+          aria-label={dictionary.navigation.mainLabel}
+        >
           {navigation.map((item) => (
             <Link key={item.href} href={item.href}>
               {dictionary.navigation[item.key]}
@@ -35,7 +48,11 @@ export function Header({ dictionary, locale }: { dictionary: Dictionary; locale:
           ))}
         </nav>
         <div className="header-actions">
-          <LanguageSelector id="desktop-language" labels={dictionary.language} locale={locale} />
+          <LanguageSelector
+            id="desktop-language"
+            labels={dictionary.language}
+            locale={locale}
+          />
           <a
             className="header-chat"
             href={`https://wa.me/${siteConfig.whatsappNumber}`}

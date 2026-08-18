@@ -15,7 +15,7 @@ export const siteConfig = {
 
 export const navigation = [
   { label: "Shop all", href: "/#shop" },
-  { label: "Tops", href: "/#tops" },
-  { label: "Bottoms", href: "/#bottoms" },
+  { label: "Tops", href: "/#shop" },
+  { label: "Bottoms", href: "/#shop" },
   { label: "Our mood", href: "/#our-mood" },
 ] as const;
