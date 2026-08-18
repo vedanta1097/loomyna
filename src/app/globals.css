@@ -820,12 +820,45 @@ summary:focus-visible {
   opacity: 0.42;
 }
 
-.color-options button > span {
+.color-options .color-swatch {
   width: 18px;
   height: 18px;
+  flex: 0 0 18px;
   border: 2px solid white;
   border-radius: 50%;
   box-shadow: 0 0 0 1px rgba(20,45,89,.25);
+}
+
+.color-options .variant-status {
+  padding: 3px 7px;
+  border-radius: 99px;
+  background: var(--yellow-soft);
+  color: var(--blue-deep);
+  font-size: 0.65rem;
+  font-weight: 750;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.preorder-notice {
+  margin: 0 0 22px;
+  padding: 15px 17px;
+  border: 1px solid rgba(20, 45, 89, 0.16);
+  border-radius: 14px;
+  background: var(--yellow-soft);
+  color: var(--blue-deep);
+}
+
+.preorder-notice strong {
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.preorder-notice p {
+  margin: 5px 0 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
 }
 
 .quantity-row {

@@ -1,5 +1,6 @@
 import { siteConfig } from "@/config/site";
 import type { Locale } from "@/i18n/config";
+import type { ProductVariantStatus } from "@/types/product";
 
 type WhatsAppOrder = {
   productName: string;
@@ -8,6 +9,8 @@ type WhatsAppOrder = {
   quantity: number;
   formattedPrice: string;
   productUrl: string;
+  orderType: ProductVariantStatus;
+  estimatedShipping?: string;
 };
 
 export function buildWhatsAppUrl(order: WhatsAppOrder, locale: Locale = "en") {
@@ -20,6 +23,14 @@ export function buildWhatsAppUrl(order: WhatsAppOrder, locale: Locale = "en") {
         `Ukuran: ${order.size}`,
         `Jumlah: ${order.quantity}`,
         `Harga: ${order.formattedPrice}`,
+        ...(order.orderType === "pre-order"
+          ? [
+              "Jenis pesanan: Pre-order",
+              ...(order.estimatedShipping
+                ? [`Estimasi pengiriman: ${order.estimatedShipping}`]
+                : []),
+            ]
+          : []),
         `Tautan produk: ${order.productUrl}`,
       ]
     : [
@@ -30,6 +41,14 @@ export function buildWhatsAppUrl(order: WhatsAppOrder, locale: Locale = "en") {
         `Size: ${order.size}`,
         `Quantity: ${order.quantity}`,
         `Price: ${order.formattedPrice}`,
+        ...(order.orderType === "pre-order"
+          ? [
+              "Order type: Pre-order",
+              ...(order.estimatedShipping
+                ? [`Estimated shipping: ${order.estimatedShipping}`]
+                : []),
+            ]
+          : []),
         `Product link: ${order.productUrl}`,
       ];
 

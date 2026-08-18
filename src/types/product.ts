@@ -1,4 +1,5 @@
 export type ProductBadge = "new" | "featured" | "bestseller" | "sold-out";
+export type ProductVariantStatus = "in-stock" | "pre-order" | "sold-out";
 
 export type ProductImage = {
   src: string;
@@ -14,7 +15,9 @@ export type ProductVariant = {
   colorSlug: string;
   colorHex: string;
   size: string;
-  available: boolean;
+  status: ProductVariantStatus;
+  estimatedShipping?: string;
+  imagePreviewAvailable?: boolean;
   shopeeUrl?: string;
 };
 

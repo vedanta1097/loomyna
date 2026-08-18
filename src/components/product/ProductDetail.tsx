@@ -34,11 +34,18 @@ export function ProductDetail({
   const sizes = Array.from(new Set(product.variants.map((variant) => variant.size)));
   const galleryColor = selectedColor ?? colors[0].colorSlug;
   const images = product.imagesByColor[galleryColor];
+  const selectedColorVariant = colors.find((color) => color.colorSlug === selectedColor);
   const selectedVariant = product.variants.find(
     (variant) =>
-      variant.colorSlug === selectedColor && variant.size === selectedSize && variant.available,
+      variant.colorSlug === selectedColor &&
+      variant.size === selectedSize &&
+      variant.status !== "sold-out",
   );
-  const selectedColorName = colors.find((color) => color.colorSlug === selectedColor)?.color;
+  const selectedColorName = selectedColorVariant?.color;
+  const isPreOrder = selectedColorVariant?.status === "pre-order";
+  const estimatedShipping = selectedColorVariant?.estimatedShipping
+    ? formatShippingDate(selectedColorVariant.estimatedShipping, locale)
+    : undefined;
   const canCheckout = Boolean(selectedVariant);
   const shopeeUrl = selectedVariant?.shopeeUrl ?? product.shopeeUrl;
 
@@ -50,6 +57,8 @@ export function ProductDetail({
         quantity,
         formattedPrice: formatIDR(product.price * quantity),
         productUrl: `${siteConfig.url}/products/${product.slug}`,
+        orderType: selectedVariant!.status,
+        estimatedShipping,
       }, locale)
     : undefined;
 
@@ -62,7 +71,9 @@ export function ProductDetail({
   function sizeIsAvailable(size: string) {
     return product.variants.some(
       (variant) =>
-        variant.colorSlug === selectedColor && variant.size === size && variant.available,
+        variant.colorSlug === selectedColor &&
+        variant.size === size &&
+        variant.status !== "sold-out",
     );
   }
 
@@ -141,12 +152,33 @@ export function ProductDetail({
                 aria-pressed={selectedColor === color.colorSlug}
                 onClick={() => chooseColor(color.colorSlug)}
               >
-                <span style={{ background: color.colorHex }} />
+                <span className="color-swatch" style={{ background: color.colorHex }} />
                 {color.color}
+                {color.status === "pre-order" ? (
+                  <span className="variant-status">{labels.preOrder}</span>
+                ) : null}
               </button>
             ))}
           </div>
         </fieldset>
+
+        {isPreOrder ? (
+          <div className="preorder-notice" role="status">
+            <strong>{labels.preOrder}</strong>
+            <p>
+              {labels.preOrderNotice}
+              {selectedColorVariant?.imagePreviewAvailable === false
+                ? ` ${labels.preOrderPreviewNotice}`
+                : ""}
+              {estimatedShipping ? (
+                <>
+                  {` ${labels.estimatedShipping}: `}
+                  <time dateTime={selectedColorVariant?.estimatedShipping}>{estimatedShipping}</time>.
+                </>
+              ) : null}
+            </p>
+          </div>
+        ) : null}
 
         <fieldset className="option-group">
           <legend>
@@ -195,21 +227,21 @@ export function ProductDetail({
 
         <p className="selection-summary" aria-live="polite">
           {canCheckout
-            ? `${selectedColorName} · ${selectedSize} · ${quantity} ${quantity === 1 ? labels.piece : labels.pieces}`
+            ? `${selectedColorName} · ${selectedSize} · ${quantity} ${quantity === 1 ? labels.piece : labels.pieces}${isPreOrder ? ` · ${labels.preOrder}` : ""}`
             : labels.selectOptions}
         </p>
 
         <div className="checkout-actions">
           {whatsappUrl ? (
             <a className="button button-primary" href={whatsappUrl} target="_blank" rel="noreferrer">
-              <WhatsAppIcon /> {labels.orderWhatsApp}
+              <WhatsAppIcon /> {isPreOrder ? labels.preOrderWhatsApp : labels.orderWhatsApp}
             </a>
           ) : (
             <button className="button button-primary" type="button" disabled>
-              <WhatsAppIcon /> {labels.orderWhatsApp}
+              <WhatsAppIcon /> {isPreOrder ? labels.preOrderWhatsApp : labels.orderWhatsApp}
             </button>
           )}
-          {shopeeUrl && canCheckout ? (
+          {shopeeUrl && canCheckout && !isPreOrder ? (
             <a className="button button-secondary" href={shopeeUrl} target="_blank" rel="noreferrer">
               {labels.buyShopee}
             </a>
@@ -242,6 +274,15 @@ export function ProductDetail({
       </div>
     </div>
   );
+}
+
+function formatShippingDate(value: string, locale: Locale) {
+  return new Intl.DateTimeFormat(locale === "id" ? "id-ID" : "en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${value}T00:00:00Z`));
 }
 
 function WhatsAppIcon() {

@@ -12,6 +12,9 @@ type ProductSeed = {
     slug: string;
     hex: string;
     image?: { src: string; width: number; height: number };
+    status?: "in-stock" | "pre-order" | "sold-out";
+    estimatedShipping?: string;
+    imagePreviewAvailable?: boolean;
   }[];
   blurb: string;
   badge?: "new" | "featured" | "bestseller";
@@ -128,7 +131,17 @@ const seeds: ProductSeed[] = [
       height: 2000,
       blurDataURL: "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAACQAwCdASoQABQAPu1iqk2ppaQiMAgBMB2JZ12AVpATjtLkEiagAP7sGhGA/u8mINtYeS0w3FyFkujTpBvIgwolEqisxUhdbX2Y9WELrvf2YAAA",
     },
-    colors: [{ name: "White", slug: "white", hex: "#FFFFFF" }],
+    colors: [
+      { name: "White", slug: "white", hex: "#FFFFFF" },
+      {
+        name: "Black",
+        slug: "black",
+        hex: "#171717",
+        status: "pre-order",
+        estimatedShipping: "2026-08-24",
+        imagePreviewAvailable: false,
+      },
+    ],
     blurb: "A clean ribbed halter made for pairing, layering, and moving freely.",
   },
   {
@@ -190,7 +203,7 @@ const indonesianProducts: Record<
   "rib-halter-neck": {
     name: "Atasan Halter Rib",
     blurb: "Atasan halter rib yang simpel untuk dipadukan, dilapis, dan bergerak dengan bebas.",
-    colors: { white: "Putih" },
+    colors: { white: "Putih", black: "Hitam" },
   },
   "loomy-crop-top": {
     name: "Loomy Crop Top",
@@ -228,7 +241,9 @@ export const products: Product[] = seeds.map((seed) => ({
       [
         {
           src: color.image?.src ?? `/assets/products/${seed.slug}/main-v1.webp`,
-          alt: `${seed.name} in ${color.name}, product view`,
+          alt: color.imagePreviewAvailable === false
+            ? `${seed.name} in White; ${color.name} is currently in production`
+            : `${seed.name} in ${color.name}, product view`,
           width: color.image?.width ?? seed.image.width,
           height: color.image?.height ?? seed.image.height,
           blurDataURL: color.image ? undefined : seed.image.blurDataURL,
@@ -242,7 +257,9 @@ export const products: Product[] = seeds.map((seed) => ({
     colorSlug: color.slug,
     colorHex: color.hex,
     size: "All Size",
-    available: true,
+    status: color.status ?? "in-stock",
+    estimatedShipping: color.estimatedShipping,
+    imagePreviewAvailable: color.imagePreviewAvailable ?? true,
   })),
 }));
 
@@ -277,7 +294,10 @@ export function getPublishedProducts(locale: Locale = "en") {
           colorSlug,
           images.map((image) => ({
             ...image,
-            alt: `${translation.name} warna ${translation.colors[colorSlug] ?? colorSlug}, tampilan produk`,
+            alt: product.variants.find((variant) => variant.colorSlug === colorSlug)
+              ?.imagePreviewAvailable === false
+              ? `${translation.name} warna Putih; ${translation.colors[colorSlug] ?? colorSlug} sedang dalam produksi`
+              : `${translation.name} warna ${translation.colors[colorSlug] ?? colorSlug}, tampilan produk`,
           })),
         ]),
       ),

@@ -32,6 +32,9 @@ for (const product of products) {
     if (!product.imagesByColor[variant.colorSlug]) {
       errors.push(`${product.slug}: ${variant.colorSlug} has no image mapping`);
     }
+    if (variant.status === "pre-order" && !variant.estimatedShipping) {
+      errors.push(`${product.slug}: ${variant.colorSlug} pre-order has no estimated shipping date`);
+    }
   }
 
   for (const [color, images] of Object.entries(product.imagesByColor)) {

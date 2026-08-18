@@ -20,4 +20,4 @@ Open `http://localhost:3000`.
 
 Run `npm run check` before deployment. The production build validates unique product IDs, slugs and SKUs, variation image mappings, homepage references, and required asset files.
 
-Set `NEXT_PUBLIC_SITE_URL` in Vercel if the production domain differs from `https://loomyna.com`.
+Set `NEXT_PUBLIC_SITE_URL` in Vercel if the production domain differs from `https://loomyna.vercel.app`.
