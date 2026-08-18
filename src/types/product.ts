@@ -40,7 +40,7 @@ export type Product = {
 
 export type HeroSlide = {
   id: string;
-  desktopImage: {
+  desktopImage?: {
     src: string;
     width: number;
     height: number;
@@ -50,6 +50,8 @@ export type HeroSlide = {
     width: number;
     height: number;
   };
+  /** Show this campaign image only on screens narrower than 700px. */
+  mobileOnly?: boolean;
   imageAlt: string;
   ctaLabel?: string;
   ctaHref?: string;

@@ -3,7 +3,7 @@
 import { getImageProps } from "next/image";
 import Link from "next/link";
 import useEmblaCarousel from "embla-carousel-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { HeroSlide } from "@/types/product";
 
@@ -14,7 +14,9 @@ export function HeroCarousel({
   labels: Dictionary["home"];
   slides: HeroSlide[];
 }) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: slides.length > 1 });
+  const isMobile = useMobileHeroLayout();
+  const visibleSlides = isMobile ? slides : slides.filter((slide) => !slide.mobileOnly);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: visibleSlides.length > 1 });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const onSelect = useCallback(() => {
@@ -29,20 +31,24 @@ export function HeroCarousel({
     };
   }, [emblaApi, onSelect]);
 
+  useEffect(() => {
+    emblaApi?.reInit({ loop: visibleSlides.length > 1 });
+  }, [emblaApi, visibleSlides.length]);
+
   return (
     <section className="hero" aria-roledescription="carousel" aria-label={labels.campaignLabel}>
       <div className="hero-viewport" ref={emblaRef}>
         <div className="hero-container">
-          {slides.map((slide, index) => {
-            const {
-              props: { srcSet: desktopSrcSet },
-            } = getImageProps({
-              src: slide.desktopImage.src,
-              alt: slide.imageAlt,
-              width: slide.desktopImage.width,
-              height: slide.desktopImage.height,
-              sizes: "100vw",
-            });
+          {visibleSlides.map((slide, index) => {
+            const desktopSrcSet = slide.desktopImage
+              ? getImageProps({
+                  src: slide.desktopImage.src,
+                  alt: slide.imageAlt,
+                  width: slide.desktopImage.width,
+                  height: slide.desktopImage.height,
+                  sizes: "100vw",
+                }).props.srcSet
+              : undefined;
             const {
               props: { srcSet: mobileSrcSet, ...mobileImageProps },
             } = getImageProps({
@@ -61,10 +67,10 @@ export function HeroCarousel({
                 key={slide.id}
                 role="group"
                 aria-roledescription={labels.slide}
-                aria-label={`${index + 1} ${labels.of} ${slides.length}`}
+                aria-label={`${index + 1} ${labels.of} ${visibleSlides.length}`}
               >
                 <picture>
-                  <source media="(min-width: 700px)" srcSet={desktopSrcSet} />
+                  {desktopSrcSet ? <source media="(min-width: 700px)" srcSet={desktopSrcSet} /> : null}
                   <img {...mobileImageProps} alt={slide.imageAlt} srcSet={mobileSrcSet} />
                 </picture>
                 {slide.ctaLabel && slide.ctaHref ? (
@@ -78,13 +84,13 @@ export function HeroCarousel({
           })}
         </div>
       </div>
-      {slides.length > 1 ? (
+      {visibleSlides.length > 1 ? (
         <div className="hero-controls">
           <button type="button" onClick={() => emblaApi?.scrollPrev()} aria-label={labels.previousSlide}>
             <ArrowIcon direction="left" />
           </button>
           <div className="hero-dots">
-            {slides.map((slide, index) => (
+            {visibleSlides.map((slide, index) => (
               <button
                 type="button"
                 key={slide.id}
@@ -101,6 +107,18 @@ export function HeroCarousel({
         </div>
       ) : null}
     </section>
+  );
+}
+
+function useMobileHeroLayout() {
+  return useSyncExternalStore(
+    (onStoreChange) => {
+      const mediaQuery = window.matchMedia("(max-width: 699px)");
+      mediaQuery.addEventListener("change", onStoreChange);
+      return () => mediaQuery.removeEventListener("change", onStoreChange);
+    },
+    () => window.matchMedia("(max-width: 699px)").matches,
+    () => false,
   );
 }
 

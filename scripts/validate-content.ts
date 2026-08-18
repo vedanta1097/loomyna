@@ -44,7 +44,12 @@ for (const product of products) {
 }
 
 for (const slide of heroSlides) {
-  if (!assetExists(slide.desktopImage.src)) errors.push(`Missing ${slide.desktopImage.src}`);
+  if (!slide.mobileOnly && !slide.desktopImage) {
+    errors.push(`${slide.id}: desktop image is required unless the slide is mobile-only`);
+  }
+  if (slide.desktopImage && !assetExists(slide.desktopImage.src)) {
+    errors.push(`Missing ${slide.desktopImage.src}`);
+  }
   if (!assetExists(slide.mobileImage.src)) errors.push(`Missing ${slide.mobileImage.src}`);
 }
 
