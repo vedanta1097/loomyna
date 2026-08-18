@@ -45,7 +45,7 @@ export default async function RootLayout({
   const dictionary = getDictionary(locale);
 
   return (
-    <html lang={locale} className={poppins.variable}>
+    <html lang={locale} className={poppins.variable} data-scroll-behavior="smooth">
       <body>
         <a className="skip-link" href="#main-content">
           {dictionary.skipToContent}
