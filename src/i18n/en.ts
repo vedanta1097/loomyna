@@ -31,6 +31,7 @@ const en = {
   footer: {
     explore: "Explore",
     needHelp: "Need a hand?",
+    followUs: "Follow us",
     madeFor: "Made for brighter days.",
   },
   home: {

@@ -1074,7 +1074,7 @@ summary:focus-visible {
   }
 
   .footer-grid {
-    grid-template-columns: 2fr .8fr .8fr;
+    grid-template-columns: 1.7fr repeat(3, .8fr);
   }
 }
 

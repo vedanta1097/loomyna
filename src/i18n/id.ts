@@ -33,6 +33,7 @@ const id = {
   footer: {
     explore: "Jelajahi",
     needHelp: "Butuh bantuan?",
+    followUs: "Ikuti kami",
     madeFor: "Dibuat untuk hari yang lebih cerah.",
   },
   home: {

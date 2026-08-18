@@ -20,10 +20,18 @@ export function Footer({ dictionary }: { dictionary: Dictionary }) {
         </div>
         <div>
           <p className="footer-heading">{dictionary.footer.needHelp}</p>
+          <span>WhatsApp</span>
           <a href={`https://wa.me/${siteConfig.whatsappNumber}`} target="_blank" rel="noreferrer">
-            WhatsApp
+            {siteConfig.whatsappDisplay}
           </a>
-          <span>{siteConfig.whatsappDisplay}</span>
+        </div>
+        <div>
+          <p className="footer-heading">{dictionary.footer.followUs}</p>
+          {siteConfig.socialLinks.map((social) => (
+            <a key={social.label} href={social.href} target="_blank" rel="noreferrer">
+              {social.label}
+            </a>
+          ))}
         </div>
       </div>
       <div className="shell footer-bottom">
