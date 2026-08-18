@@ -7,7 +7,12 @@ type ProductSeed = {
   price: number;
   category: "Tops" | "Bottoms";
   image: { width: number; height: number; blurDataURL: string };
-  colors: { name: string; slug: string; hex: string }[];
+  colors: {
+    name: string;
+    slug: string;
+    hex: string;
+    image?: { src: string; width: number; height: number };
+  }[];
   blurb: string;
   badge?: "new" | "featured" | "bestseller";
 };
@@ -23,7 +28,48 @@ const seeds: ProductSeed[] = [
       height: 2000,
       blurDataURL: "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAAAwAwCdASoQABQAPu1iqU2ppaOiMAgBMB2JY2VuVp4b8brAAP7sqa712fbgdYefUwRQyfFzamaFthPyjeZbpJF8tJLvH0MwKt+dgAAA",
     },
-    colors: [{ name: "Butter Yellow", slug: "butter-yellow", hex: "#FFEDA8" }],
+    colors: [
+      {
+        name: "Butter Blue",
+        slug: "butter-blue",
+        hex: "linear-gradient(135deg, #FFEDA8 0 50%, #AFCFDE 50% 100%)",
+        image: {
+          src: "/assets/products/halter-neck/butter-blue/main-v1.webp",
+          width: 1600,
+          height: 2133,
+        },
+      },
+      {
+        name: "Butter Pink",
+        slug: "butter-pink",
+        hex: "linear-gradient(135deg, #FFEDA8 0 50%, #F4B6C2 50% 100%)",
+        image: {
+          src: "/assets/products/halter-neck/butter-pink/main-v1.webp",
+          width: 1600,
+          height: 2000,
+        },
+      },
+      {
+        name: "Pink Blue",
+        slug: "pink-blue",
+        hex: "linear-gradient(135deg, #F4B6C2 0 50%, #AFCFDE 50% 100%)",
+        image: {
+          src: "/assets/products/halter-neck/pink-blue/main-v1.webp",
+          width: 1600,
+          height: 2000,
+        },
+      },
+      {
+        name: "Pink Butter",
+        slug: "pink-butter",
+        hex: "linear-gradient(135deg, #F4B6C2 0 50%, #FFEDA8 50% 100%)",
+        image: {
+          src: "/assets/products/halter-neck/pink-butter/main-v1.webp",
+          width: 1600,
+          height: 2000,
+        },
+      },
+    ],
     blurb: "A sweet halter silhouette for stretches, seaside walks, and everything after.",
     badge: "featured",
   },
@@ -37,7 +83,38 @@ const seeds: ProductSeed[] = [
       height: 2000,
       blurDataURL: "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAABwAwCdASoQABQAPu1orU6ppiSiMAgBMB2JZQCdMoAE7hbx9AAA/urCehZdw+DyPlpB06PcL84KsQp+7atkewNhnPzCzUYz7TiXNOmAAAA=",
     },
-    colors: [{ name: "Butter Yellow", slug: "butter-yellow", hex: "#FFEDA8" }],
+    colors: [
+      {
+        name: "Butter",
+        slug: "butter",
+        hex: "#FFEDA8",
+        image: {
+          src: "/assets/products/linen-pants/butter/main-v1.webp",
+          width: 1600,
+          height: 2000,
+        },
+      },
+      {
+        name: "Blue",
+        slug: "blue",
+        hex: "#AFCFDE",
+        image: {
+          src: "/assets/products/linen-pants/blue/main-v1.webp",
+          width: 1600,
+          height: 2000,
+        },
+      },
+      {
+        name: "Pink",
+        slug: "pink",
+        hex: "#E9AAB7",
+        image: {
+          src: "/assets/products/linen-pants/pink/main-v1.webp",
+          width: 803,
+          height: 1004,
+        },
+      },
+    ],
     blurb: "An easy, airy shape that brings a little sunshine to everyday dressing.",
     badge: "new",
   },
@@ -98,12 +175,17 @@ const indonesianProducts: Record<
   "halter-neck": {
     name: "Atasan Halter",
     blurb: "Siluet halter manis untuk peregangan, jalan di tepi pantai, dan segala aktivitas setelahnya.",
-    colors: { "butter-yellow": "Kuning Mentega" },
+    colors: {
+      "butter-blue": "Kuning Biru",
+      "butter-pink": "Kuning Merah Muda",
+      "pink-blue": "Merah Muda Biru",
+      "pink-butter": "Merah Muda Kuning",
+    },
   },
   "linen-pants": {
     name: "Celana Linen",
     blurb: "Potongan ringan dan nyaman yang membawa sedikit keceriaan ke gaya sehari-hari.",
-    colors: { "butter-yellow": "Kuning Mentega" },
+    colors: { butter: "Kuning Mentega", blue: "Biru", pink: "Merah Muda" },
   },
   "rib-halter-neck": {
     name: "Atasan Halter Rib",
@@ -145,11 +227,11 @@ export const products: Product[] = seeds.map((seed) => ({
       color.slug,
       [
         {
-          src: `/assets/products/${seed.slug}/main-v1.webp`,
+          src: color.image?.src ?? `/assets/products/${seed.slug}/main-v1.webp`,
           alt: `${seed.name} in ${color.name}, product view`,
-          width: seed.image.width,
-          height: seed.image.height,
-          blurDataURL: seed.image.blurDataURL,
+          width: color.image?.width ?? seed.image.width,
+          height: color.image?.height ?? seed.image.height,
+          blurDataURL: color.image ? undefined : seed.image.blurDataURL,
         },
       ],
     ]),

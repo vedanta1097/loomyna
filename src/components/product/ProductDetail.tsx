@@ -141,7 +141,7 @@ export function ProductDetail({
                 aria-pressed={selectedColor === color.colorSlug}
                 onClick={() => chooseColor(color.colorSlug)}
               >
-                <span style={{ backgroundColor: color.colorHex }} />
+                <span style={{ background: color.colorHex }} />
                 {color.color}
               </button>
             ))}

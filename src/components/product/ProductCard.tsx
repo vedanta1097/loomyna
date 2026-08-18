@@ -45,7 +45,7 @@ export function ProductCard({
             <span
               key={color.colorSlug}
               title={color.color}
-              style={{ backgroundColor: color.colorHex }}
+              style={{ background: color.colorHex }}
             />
           ))}
         </div>
