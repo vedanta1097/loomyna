@@ -5,38 +5,47 @@ import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { siteConfig } from "@/config/site";
+import { getDictionary } from "@/i18n/dictionaries";
+import { getLocale } from "@/i18n/server";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
-  title: {
-    default: "Loomyna — Made for brighter days",
-    template: "%s | Loomyna",
-  },
-  description: siteConfig.description,
-  icons: { icon: "/favicon.svg" },
-  openGraph: {
-    type: "website",
-    siteName: "Loomyna",
-    title: "Loomyna — Made for brighter days",
-    description: siteConfig.description,
-    images: ["/assets/banners/desktop/hero-banner.jpg"],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const dictionary = getDictionary(await getLocale());
 
-export default function RootLayout({
+  return {
+    metadataBase: new URL(siteConfig.url),
+    title: {
+      default: dictionary.metadata.title,
+      template: "%s | Loomyna",
+    },
+    description: dictionary.metadata.description,
+    icons: { icon: "/favicon.svg" },
+    openGraph: {
+      type: "website",
+      siteName: "Loomyna",
+      title: dictionary.metadata.title,
+      description: dictionary.metadata.description,
+      images: ["/assets/banners/desktop/hero-banner.jpg"],
+    },
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const locale = await getLocale();
+  const dictionary = getDictionary(locale);
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body>
         <a className="skip-link" href="#main-content">
-          Skip to content
+          {dictionary.skipToContent}
         </a>
-        <AnnouncementBar />
-        <Header />
+        <AnnouncementBar announcement={dictionary.announcement} />
+        <Header dictionary={dictionary} locale={locale} />
         <main id="main-content">{children}</main>
-        <Footer />
+        <Footer dictionary={dictionary} />
         <Analytics />
         <SpeedInsights />
       </body>

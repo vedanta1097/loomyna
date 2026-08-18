@@ -1,16 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Dictionary } from "@/i18n/dictionaries";
 import { formatIDR } from "@/lib/format";
 import type { Product } from "@/types/product";
 
-const badgeLabels = {
-  new: "New",
-  featured: "Our pick",
-  bestseller: "Loved",
-  "sold-out": "Sold out",
-};
-
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({
+  labels,
+  product,
+}: {
+  labels: Dictionary["productCard"];
+  product: Product;
+}) {
   const firstVariant = product.variants[0];
   const image = product.imagesByColor[firstVariant.colorSlug][0];
   const colors = Array.from(
@@ -27,16 +27,18 @@ export function ProductCard({ product }: { product: Product }) {
           sizes="(max-width: 699px) 50vw, (max-width: 1100px) 33vw, 25vw"
         />
         {product.badges?.[0] ? (
-          <span className="product-badge">{badgeLabels[product.badges[0]]}</span>
+          <span className="product-badge">
+            {product.badges[0] === "sold-out" ? labels.badges.soldOut : labels.badges[product.badges[0]]}
+          </span>
         ) : null}
-        <span className="quick-view">View piece</span>
+        <span className="quick-view">{labels.viewPiece}</span>
       </Link>
       <div className="product-card-info">
         <div>
           <Link href={`/products/${product.slug}`}>{product.name}</Link>
           <p>{formatIDR(product.price)}</p>
         </div>
-        <div className="swatches" aria-label={`Available colors: ${colors.map((color) => color.color).join(", ")}`}>
+        <div className="swatches" aria-label={`${labels.availableColors}: ${colors.map((color) => color.color).join(", ")}`}>
           {colors.map((color) => (
             <span
               key={color.colorSlug}

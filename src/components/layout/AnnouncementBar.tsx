@@ -1,5 +1,3 @@
-import { siteConfig } from "@/config/site";
-
-export function AnnouncementBar() {
-  return <p className="announcement">{siteConfig.announcement}</p>;
+export function AnnouncementBar({ announcement }: { announcement: string }) {
+  return <p className="announcement">{announcement}</p>;
 }

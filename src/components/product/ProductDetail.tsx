@@ -3,11 +3,21 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { siteConfig } from "@/config/site";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/dictionaries";
 import { buildWhatsAppUrl } from "@/lib/checkout";
 import { formatIDR } from "@/lib/format";
 import type { Product } from "@/types/product";
 
-export function ProductDetail({ product }: { product: Product }) {
+export function ProductDetail({
+  labels,
+  locale,
+  product,
+}: {
+  labels: Dictionary["productDetail"];
+  locale: Locale;
+  product: Product;
+}) {
   const [selectedColor, setSelectedColor] = useState<string>();
   const [selectedSize, setSelectedSize] = useState<string>();
   const [quantity, setQuantity] = useState(1);
@@ -40,7 +50,7 @@ export function ProductDetail({ product }: { product: Product }) {
         quantity,
         formattedPrice: formatIDR(product.price * quantity),
         productUrl: `${siteConfig.url}/products/${product.slug}`,
-      })
+      }, locale)
     : undefined;
 
   function chooseColor(colorSlug: string) {
@@ -58,7 +68,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
   return (
     <div className="product-detail shell">
-      <div className="gallery" aria-label={`${product.name} images`}>
+      <div className="gallery" aria-label={`${product.name} ${labels.images}`}>
         <div className="gallery-main">
           <Image
             src={images[activeImage].src}
@@ -71,14 +81,14 @@ export function ProductDetail({ product }: { product: Product }) {
             <div className="gallery-arrows">
               <button
                 type="button"
-                aria-label="Previous image"
+                aria-label={labels.previousImage}
                 onClick={() => setActiveImage((activeImage - 1 + images.length) % images.length)}
               >
                 ←
               </button>
               <button
                 type="button"
-                aria-label="Next image"
+                aria-label={labels.nextImage}
                 onClick={() => setActiveImage((activeImage + 1) % images.length)}
               >
                 →
@@ -93,7 +103,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 type="button"
                 key={image.src}
                 className={activeImage === index ? "active" : ""}
-                aria-label={`View image ${index + 1}`}
+                aria-label={`${labels.viewImage} ${index + 1}`}
                 onClick={() => setActiveImage(index)}
               >
                 <Image src={image.src} alt="" fill sizes="88px" />
@@ -111,7 +121,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
         <fieldset className="option-group">
           <legend>
-            Color <span>{selectedColorName ?? "Choose a color"}</span>
+            {labels.color} <span>{selectedColorName ?? labels.chooseColor}</span>
           </legend>
           <div className="color-options">
             {colors.map((color) => (
@@ -131,7 +141,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
         <fieldset className="option-group">
           <legend>
-            Size <span>{selectedSize ?? (selectedColor ? "Choose a size" : "Choose color first")}</span>
+            {labels.size} <span>{selectedSize ?? (selectedColor ? labels.chooseSize : labels.chooseColorFirst)}</span>
           </legend>
           <div className="size-options">
             {sizes.map((size) => {
@@ -153,11 +163,11 @@ export function ProductDetail({ product }: { product: Product }) {
         </fieldset>
 
         <div className="quantity-row">
-          <span>Quantity</span>
+          <span>{labels.quantity}</span>
           <div className="quantity-control">
             <button
               type="button"
-              aria-label="Decrease quantity"
+              aria-label={labels.decreaseQuantity}
               disabled={quantity === 1}
               onClick={() => setQuantity((value) => Math.max(1, value - 1))}
             >
@@ -166,7 +176,7 @@ export function ProductDetail({ product }: { product: Product }) {
             <output aria-live="polite">{quantity}</output>
             <button
               type="button"
-              aria-label="Increase quantity"
+              aria-label={labels.increaseQuantity}
               onClick={() => setQuantity((value) => Math.min(10, value + 1))}
             >
               +
@@ -176,45 +186,45 @@ export function ProductDetail({ product }: { product: Product }) {
 
         <p className="selection-summary" aria-live="polite">
           {canCheckout
-            ? `${selectedColorName} · ${selectedSize} · ${quantity} ${quantity === 1 ? "piece" : "pieces"}`
-            : "Select a color and size to order."}
+            ? `${selectedColorName} · ${selectedSize} · ${quantity} ${quantity === 1 ? labels.piece : labels.pieces}`
+            : labels.selectOptions}
         </p>
 
         <div className="checkout-actions">
           {whatsappUrl ? (
             <a className="button button-primary" href={whatsappUrl} target="_blank" rel="noreferrer">
-              <WhatsAppIcon /> Order via WhatsApp
+              <WhatsAppIcon /> {labels.orderWhatsApp}
             </a>
           ) : (
             <button className="button button-primary" type="button" disabled>
-              <WhatsAppIcon /> Order via WhatsApp
+              <WhatsAppIcon /> {labels.orderWhatsApp}
             </button>
           )}
           {shopeeUrl && canCheckout ? (
             <a className="button button-secondary" href={shopeeUrl} target="_blank" rel="noreferrer">
-              Buy on Shopee
+              {labels.buyShopee}
             </a>
           ) : (
             <button className="button button-secondary" type="button" disabled>
-              {shopeeUrl ? "Buy on Shopee" : "Shopee — coming soon"}
+              {shopeeUrl ? labels.buyShopee : labels.shopeeSoon}
             </button>
           )}
         </div>
         <p className="checkout-note">
-          Opening WhatsApp starts a chat; your order is confirmed once our team replies.
+          {labels.checkoutNote}
         </p>
 
         <div className="product-notes">
           <details open>
-            <summary>Details</summary>
+            <summary>{labels.details}</summary>
             <p>{product.material}</p>
           </details>
           <details>
-            <summary>Size & fit</summary>
+            <summary>{labels.sizeFit}</summary>
             {product.sizeGuide?.map((line) => <p key={line}>{line}</p>)}
           </details>
           <details>
-            <summary>Care</summary>
+            <summary>{labels.care}</summary>
             <ul>
               {product.careInstructions?.map((line) => <li key={line}>{line}</li>)}
             </ul>

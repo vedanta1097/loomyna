@@ -4,9 +4,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { navigation, siteConfig } from "@/config/site";
+import { siteConfig } from "@/config/site";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/dictionaries";
+import { LanguageSelector } from "./LanguageSelector";
 
-export function MobileMenu() {
+const navigation = [
+  { key: "shop", href: "/#shop" },
+  { key: "tops", href: "/#tops" },
+  { key: "bottoms", href: "/#bottoms" },
+  { key: "mood", href: "/#our-mood" },
+] as const;
+
+export function MobileMenu({ dictionary, locale }: { dictionary: Dictionary; locale: Locale }) {
   const [open, setOpen] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -35,7 +45,7 @@ export function MobileMenu() {
         type="button"
         aria-expanded={open}
         aria-controls="mobile-navigation"
-        aria-label="Open navigation"
+        aria-label={dictionary.header.openNavigation}
         onClick={() => setOpen(true)}
       >
         <MenuIcon />
@@ -46,14 +56,14 @@ export function MobileMenu() {
           <button
             type="button"
             className="menu-scrim"
-            aria-label="Close navigation"
+            aria-label={dictionary.header.closeNavigation}
             onClick={() => setOpen(false)}
           />
           <aside
             className="menu-drawer"
             role="dialog"
             aria-modal="true"
-            aria-label="Navigation menu"
+            aria-label={dictionary.header.menuLabel}
           >
             <div className="menu-drawer-header">
               <Image src="/assets/brand/logo.svg" alt="Loomyna" width={392} height={67} />
@@ -61,17 +71,17 @@ export function MobileMenu() {
                 ref={closeButtonRef}
                 className="icon-button menu-close"
                 type="button"
-                aria-label="Close navigation"
+                aria-label={dictionary.header.closeNavigation}
                 onClick={() => setOpen(false)}
               >
                 <CloseIcon />
               </button>
             </div>
-            <nav id="mobile-navigation" aria-label="Mobile navigation">
-              <p className="eyebrow">Find your sunshine</p>
+            <nav id="mobile-navigation" aria-label={dictionary.header.mobileNavigationLabel}>
+              <p className="eyebrow">{dictionary.header.menuEyebrow}</p>
               {navigation.map((item) => (
                 <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
-                  {item.label}
+                  {dictionary.navigation[item.key]}
                 </Link>
               ))}
               <a
@@ -80,8 +90,9 @@ export function MobileMenu() {
                 target="_blank"
                 rel="noreferrer"
               >
-                Chat with us
+                {dictionary.header.chatWithUs}
               </a>
+              <LanguageSelector id="mobile-language" labels={dictionary.language} locale={locale} />
             </nav>
           </aside>
           </div>,

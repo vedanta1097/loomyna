@@ -1,4 +1,5 @@
 import type { Product } from "@/types/product";
+import type { Locale } from "@/i18n/config";
 
 type ProductSeed = {
   slug: string;
@@ -70,6 +71,37 @@ const seeds: ProductSeed[] = [
   },
 ];
 
+const indonesianProducts: Record<
+  string,
+  { name: string; blurb: string; colors: Record<string, string> }
+> = {
+  "halter-neck": {
+    name: "Atasan Halter",
+    blurb: "Siluet halter manis untuk peregangan, jalan di tepi pantai, dan segala aktivitas setelahnya.",
+    colors: { "butter-yellow": "Kuning Mentega" },
+  },
+  "linen-pants": {
+    name: "Celana Linen",
+    blurb: "Potongan ringan dan nyaman yang membawa sedikit keceriaan ke gaya sehari-hari.",
+    colors: { "butter-yellow": "Kuning Mentega" },
+  },
+  "rib-halter-neck": {
+    name: "Atasan Halter Rib",
+    blurb: "Atasan halter rib yang simpel untuk dipadukan, dilapis, dan bergerak dengan bebas.",
+    colors: { white: "Putih" },
+  },
+  "loomy-crop-top": {
+    name: "Loomy Crop Top",
+    blurb: "Crop top ceria sehari-hari dengan bahan lembut dan mudah dipadukan untuk berbagai gaya.",
+    colors: { black: "Hitam", beige: "Beige", white: "Putih" },
+  },
+  "loomy-inner-top": {
+    name: "Loomy Inner Top",
+    blurb: "Lapisan kecil yang nyaman dan dirancang agar terasa halus di balik tampilan favoritmu.",
+    colors: { black: "Hitam", beige: "Beige", white: "Putih" },
+  },
+};
+
 export const products: Product[] = seeds.map((seed) => ({
   id: seed.slug,
   slug: seed.slug,
@@ -113,6 +145,43 @@ export const products: Product[] = seeds.map((seed) => ({
 
 export const publishedProducts = products.filter((product) => product.published);
 
-export function getProductBySlug(slug: string) {
-  return publishedProducts.find((product) => product.slug === slug);
+export function getPublishedProducts(locale: Locale = "en") {
+  if (locale === "en") return publishedProducts;
+
+  return publishedProducts.map((product) => {
+    const translation = indonesianProducts[product.slug];
+    if (!translation) return product;
+
+    return {
+      ...product,
+      name: translation.name,
+      shortDescription: translation.blurb,
+      description: translation.blurb,
+      category: product.category === "Tops" ? "Atasan" : "Bawahan",
+      material: "Tanyakan detail bahan terbaru kepada tim kami melalui WhatsApp.",
+      careInstructions: [
+        "Cuci lembut bersama warna serupa.",
+        "Keringkan dengan udara di tempat teduh untuk membantu menjaga warna dan bentuk.",
+      ],
+      sizeGuide: ["Semua ukuran — hubungi kami untuk ukuran pakaian terbaru."],
+      variants: product.variants.map((variant) => ({
+        ...variant,
+        color: translation.colors[variant.colorSlug] ?? variant.color,
+        size: variant.size === "All Size" ? "Semua Ukuran" : variant.size,
+      })),
+      imagesByColor: Object.fromEntries(
+        Object.entries(product.imagesByColor).map(([colorSlug, images]) => [
+          colorSlug,
+          images.map((image) => ({
+            ...image,
+            alt: `${translation.name} warna ${translation.colors[colorSlug] ?? colorSlug}, tampilan produk`,
+          })),
+        ]),
+      ),
+    } satisfies Product;
+  });
+}
+
+export function getProductBySlug(slug: string, locale: Locale = "en") {
+  return getPublishedProducts(locale).find((product) => product.slug === slug);
 }

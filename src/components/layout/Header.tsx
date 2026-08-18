@@ -1,14 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
-import { navigation, siteConfig } from "@/config/site";
+import { siteConfig } from "@/config/site";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/dictionaries";
+import { LanguageSelector } from "./LanguageSelector";
 import { MobileMenu } from "./MobileMenu";
 
-export function Header() {
+const navigation = [
+  { key: "shop", href: "/#shop" },
+  { key: "tops", href: "/#tops" },
+  { key: "bottoms", href: "/#bottoms" },
+  { key: "mood", href: "/#our-mood" },
+] as const;
+
+export function Header({ dictionary, locale }: { dictionary: Dictionary; locale: Locale }) {
   return (
     <header className="site-header">
       <div className="header-inner shell">
-        <MobileMenu />
-        <Link className="brand" href="/" aria-label="Loomyna home">
+        <MobileMenu dictionary={dictionary} locale={locale} />
+        <Link className="brand" href="/" aria-label={dictionary.header.homeLabel}>
           <Image
             src="/assets/brand/logo.svg"
             alt="Loomyna"
@@ -17,23 +27,26 @@ export function Header() {
             loading="eager"
           />
         </Link>
-        <nav className="desktop-nav" aria-label="Main navigation">
+        <nav className="desktop-nav" aria-label={dictionary.navigation.mainLabel}>
           {navigation.map((item) => (
             <Link key={item.href} href={item.href}>
-              {item.label}
+              {dictionary.navigation[item.key]}
             </Link>
           ))}
         </nav>
-        <a
-          className="header-chat"
-          href={`https://wa.me/${siteConfig.whatsappNumber}`}
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Chat with Loomyna on WhatsApp"
-        >
-          <ChatIcon />
-          <span>Let&apos;s chat</span>
-        </a>
+        <div className="header-actions">
+          <LanguageSelector id="desktop-language" labels={dictionary.language} locale={locale} />
+          <a
+            className="header-chat"
+            href={`https://wa.me/${siteConfig.whatsappNumber}`}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={dictionary.header.chatLabel}
+          >
+            <ChatIcon />
+            <span>{dictionary.header.chat}</span>
+          </a>
+        </div>
       </div>
     </header>
   );

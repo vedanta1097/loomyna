@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/product/ProductDetail";
 import { ProductGrid } from "@/components/product/ProductGrid";
 import { siteConfig } from "@/config/site";
-import { getProductBySlug, publishedProducts } from "@/data/products";
+import { getProductBySlug, getPublishedProducts, publishedProducts } from "@/data/products";
+import { getDictionary } from "@/i18n/dictionaries";
+import { getLocale } from "@/i18n/server";
 
 type ProductPageProps = { params: Promise<{ slug: string }> };
 
@@ -14,7 +16,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = getProductBySlug(slug, await getLocale());
   if (!product) return {};
   const image = product.imagesByColor[product.variants[0].colorSlug][0];
 
@@ -34,11 +36,14 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const locale = await getLocale();
+  const dictionary = getDictionary(locale);
+  const localizedProducts = getPublishedProducts(locale);
+  const product = getProductBySlug(slug, locale);
   if (!product) notFound();
 
   const image = product.imagesByColor[product.variants[0].colorSlug][0];
-  const related = publishedProducts.filter(
+  const related = localizedProducts.filter(
     (candidate) => candidate.slug !== product.slug && candidate.category === product.category,
   ).slice(0, 4);
   const jsonLd = {
@@ -60,17 +65,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <>
-      <nav className="breadcrumbs shell" aria-label="Breadcrumb">
-        <Link href="/">Home</Link><span aria-hidden="true">/</span>
-        <Link href="/#shop">Shop</Link><span aria-hidden="true">/</span>
+      <nav className="breadcrumbs shell" aria-label={dictionary.productPage.breadcrumbLabel}>
+        <Link href="/">{dictionary.productPage.home}</Link><span aria-hidden="true">/</span>
+        <Link href="/#shop">{dictionary.productPage.shop}</Link><span aria-hidden="true">/</span>
         <span aria-current="page">{product.name}</span>
       </nav>
-      <ProductDetail product={product} />
+      <ProductDetail labels={dictionary.productDetail} locale={locale} product={product} />
       {related.length ? (
         <section className="related shell">
-          <p className="eyebrow">You may also like</p>
-          <h2>Keep the good mood going</h2>
-          <ProductGrid products={related} />
+          <p className="eyebrow">{dictionary.productPage.relatedEyebrow}</p>
+          <h2>{dictionary.productPage.relatedTitle}</h2>
+          <ProductGrid labels={dictionary.productCard} products={related} />
         </section>
       ) : null}
       <script

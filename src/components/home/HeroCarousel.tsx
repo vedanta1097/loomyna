@@ -4,9 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
+import type { Dictionary } from "@/i18n/dictionaries";
 import type { HeroSlide } from "@/types/product";
 
-export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
+export function HeroCarousel({
+  labels,
+  slides,
+}: {
+  labels: Dictionary["home"];
+  slides: HeroSlide[];
+}) {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: slides.length > 1 });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -23,7 +30,7 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
   }, [emblaApi, onSelect]);
 
   return (
-    <section className="hero" aria-roledescription="carousel" aria-label="Loomyna campaigns">
+    <section className="hero" aria-roledescription="carousel" aria-label={labels.campaignLabel}>
       <div className="hero-viewport" ref={emblaRef}>
         <div className="hero-container">
           {slides.map((slide, index) => (
@@ -31,8 +38,8 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
               className="hero-slide"
               key={slide.id}
               role="group"
-              aria-roledescription="slide"
-              aria-label={`${index + 1} of ${slides.length}`}
+              aria-roledescription={labels.slide}
+              aria-label={`${index + 1} ${labels.of} ${slides.length}`}
             >
               <picture>
                 <source media="(max-width: 699px)" srcSet={slide.mobileImage} />
@@ -56,7 +63,7 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
       </div>
       {slides.length > 1 ? (
         <div className="hero-controls">
-          <button type="button" onClick={() => emblaApi?.scrollPrev()} aria-label="Previous slide">
+          <button type="button" onClick={() => emblaApi?.scrollPrev()} aria-label={labels.previousSlide}>
             <ArrowIcon direction="left" />
           </button>
           <div className="hero-dots">
@@ -65,13 +72,13 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
                 type="button"
                 key={slide.id}
                 className={selectedIndex === index ? "active" : ""}
-                aria-label={`Go to slide ${index + 1}`}
+                aria-label={`${labels.goToSlide} ${index + 1}`}
                 aria-current={selectedIndex === index ? "true" : undefined}
                 onClick={() => emblaApi?.scrollTo(index)}
               />
             ))}
           </div>
-          <button type="button" onClick={() => emblaApi?.scrollNext()} aria-label="Next slide">
+          <button type="button" onClick={() => emblaApi?.scrollNext()} aria-label={labels.nextSlide}>
             <ArrowIcon />
           </button>
         </div>
