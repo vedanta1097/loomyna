@@ -29,7 +29,8 @@ const seeds: ProductSeed[] = [
     image: {
       width: 1600,
       height: 2000,
-      blurDataURL: "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAAAwAwCdASoQABQAPu1iqU2ppaOiMAgBMB2JY2VuVp4b8brAAP7sqa712fbgdYefUwRQyfFzamaFthPyjeZbpJF8tJLvH0MwKt+dgAAA",
+      blurDataURL:
+        "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAAAwAwCdASoQABQAPu1iqU2ppaOiMAgBMB2JY2VuVp4b8brAAP7sqa712fbgdYefUwRQyfFzamaFthPyjeZbpJF8tJLvH0MwKt+dgAAA",
     },
     colors: [
       {
@@ -73,7 +74,8 @@ const seeds: ProductSeed[] = [
         },
       },
     ],
-    blurb: "A sweet halter silhouette for stretches, seaside walks, and everything after.",
+    blurb:
+      "A sweet halter silhouette for stretches, seaside walks, and everything after.",
     badge: "featured",
   },
   {
@@ -84,7 +86,8 @@ const seeds: ProductSeed[] = [
     image: {
       width: 1600,
       height: 2000,
-      blurDataURL: "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAABwAwCdASoQABQAPu1orU6ppiSiMAgBMB2JZQCdMoAE7hbx9AAA/urCehZdw+DyPlpB06PcL84KsQp+7atkewNhnPzCzUYz7TiXNOmAAAA=",
+      blurDataURL:
+        "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAABwAwCdASoQABQAPu1orU6ppiSiMAgBMB2JZQCdMoAE7hbx9AAA/urCehZdw+DyPlpB06PcL84KsQp+7atkewNhnPzCzUYz7TiXNOmAAAA=",
     },
     colors: [
       {
@@ -118,7 +121,8 @@ const seeds: ProductSeed[] = [
         },
       },
     ],
-    blurb: "An easy, airy shape that brings a little sunshine to everyday dressing.",
+    blurb:
+      "An easy, airy shape that brings a little sunshine to everyday dressing.",
     badge: "new",
   },
   {
@@ -129,7 +133,8 @@ const seeds: ProductSeed[] = [
     image: {
       width: 1600,
       height: 2000,
-      blurDataURL: "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAACQAwCdASoQABQAPu1iqk2ppaQiMAgBMB2JZ12AVpATjtLkEiagAP7sGhGA/u8mINtYeS0w3FyFkujTpBvIgwolEqisxUhdbX2Y9WELrvf2YAAA",
+      blurDataURL:
+        "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAACQAwCdASoQABQAPu1iqk2ppaQiMAgBMB2JZ12AVpATjtLkEiagAP7sGhGA/u8mINtYeS0w3FyFkujTpBvIgwolEqisxUhdbX2Y9WELrvf2YAAA",
     },
     colors: [
       { name: "White", slug: "white", hex: "#FFFFFF" },
@@ -142,7 +147,9 @@ const seeds: ProductSeed[] = [
         imagePreviewAvailable: false,
       },
     ],
-    blurb: "A clean ribbed halter made for pairing, layering, and moving freely.",
+    blurb:
+      "A clean ribbed halter made for pairing, layering, and moving freely.",
+    badge: "new",
   },
   {
     slug: "loomy-crop-top",
@@ -152,15 +159,16 @@ const seeds: ProductSeed[] = [
     image: {
       width: 1600,
       height: 2000,
-      blurDataURL: "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAACwAwCdASoQABQAPu1iqU2ppaOiMAgBMB2JZQC7ACHusNDWv6kEAAD+trjm9SPT6nN8MLi9g3x32mhjZ1j1q28ogxFkiVR0xkQOk1eU5w0VmLkwu9JavWc14NbjzuytUP24hAAA",
+      blurDataURL:
+        "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAACwAwCdASoQABQAPu1iqU2ppaOiMAgBMB2JZQC7ACHusNDWv6kEAAD+trjm9SPT6nN8MLi9g3x32mhjZ1j1q28ogxFkiVR0xkQOk1eU5w0VmLkwu9JavWc14NbjzuytUP24hAAA",
     },
     colors: [
       { name: "Black", slug: "black", hex: "#171717" },
       { name: "Beige", slug: "beige", hex: "#D8C7AF" },
       { name: "White", slug: "white", hex: "#FFFFFF" },
     ],
-    blurb: "A playful everyday crop with a soft feel and endlessly easy styling.",
-    badge: "bestseller",
+    blurb:
+      "A playful everyday crop with a soft feel and endlessly easy styling.",
   },
   {
     slug: "loomy-inner-top",
@@ -170,14 +178,16 @@ const seeds: ProductSeed[] = [
     image: {
       width: 1600,
       height: 2000,
-      blurDataURL: "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAAAwBACdASoQABQAPu1iqU2ppaOiMAgBMB2JZQCdMoFWAAS6oKZVVQL01AAA/t7fhXKBmtVkyiSX4nX0dNNc5pS5PU1l3zTPnIRBAv0EISK94iEbrsKZPNpgQDV2ovRgtkuL63Dl6AiJBDoCWCkorwAA",
+      blurDataURL:
+        "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAAAwBACdASoQABQAPu1iqU2ppaOiMAgBMB2JZQCdMoFWAAS6oKZVVQL01AAA/t7fhXKBmtVkyiSX4nX0dNNc5pS5PU1l3zTPnIRBAv0EISK94iEbrsKZPNpgQDV2ovRgtkuL63Dl6AiJBDoCWCkorwAA",
     },
     colors: [
       { name: "Black", slug: "black", hex: "#171717" },
       { name: "Beige", slug: "beige", hex: "#D8C7AF" },
       { name: "White", slug: "white", hex: "#FFFFFF" },
     ],
-    blurb: "A comfortable little layer designed to sit smoothly under your favorite look.",
+    blurb:
+      "A comfortable little layer designed to sit smoothly under your favorite look.",
   },
 ];
 
@@ -187,7 +197,8 @@ const indonesianProducts: Record<
 > = {
   "halter-neck": {
     name: "Atasan Halter",
-    blurb: "Siluet halter manis untuk peregangan, jalan di tepi pantai, dan segala aktivitas setelahnya.",
+    blurb:
+      "Siluet halter manis untuk peregangan, jalan di tepi pantai, dan segala aktivitas setelahnya.",
     colors: {
       "butter-blue": "Kuning Biru",
       "butter-pink": "Kuning Merah Muda",
@@ -197,22 +208,26 @@ const indonesianProducts: Record<
   },
   "linen-pants": {
     name: "Celana Linen",
-    blurb: "Potongan ringan dan nyaman yang membawa sedikit keceriaan ke gaya sehari-hari.",
+    blurb:
+      "Potongan ringan dan nyaman yang membawa sedikit keceriaan ke gaya sehari-hari.",
     colors: { butter: "Kuning Mentega", blue: "Biru", pink: "Merah Muda" },
   },
   "rib-halter-neck": {
     name: "Atasan Halter Rib",
-    blurb: "Atasan halter rib yang simpel untuk dipadukan, dilapis, dan bergerak dengan bebas.",
+    blurb:
+      "Atasan halter rib yang simpel untuk dipadukan, dilapis, dan bergerak dengan bebas.",
     colors: { white: "Putih", black: "Hitam" },
   },
   "loomy-crop-top": {
     name: "Loomy Crop Top",
-    blurb: "Crop top ceria sehari-hari dengan bahan lembut dan mudah dipadukan untuk berbagai gaya.",
+    blurb:
+      "Crop top ceria sehari-hari dengan bahan lembut dan mudah dipadukan untuk berbagai gaya.",
     colors: { black: "Hitam", beige: "Beige", white: "Putih" },
   },
   "loomy-inner-top": {
     name: "Loomy Inner Top",
-    blurb: "Lapisan kecil yang nyaman dan dirancang agar terasa halus di balik tampilan favoritmu.",
+    blurb:
+      "Lapisan kecil yang nyaman dan dirancang agar terasa halus di balik tampilan favoritmu.",
     colors: { black: "Hitam", beige: "Beige", white: "Putih" },
   },
 };
@@ -241,9 +256,10 @@ export const products: Product[] = seeds.map((seed) => ({
       [
         {
           src: color.image?.src ?? `/assets/products/${seed.slug}/main-v1.webp`,
-          alt: color.imagePreviewAvailable === false
-            ? `${seed.name} in White; ${color.name} is currently in production`
-            : `${seed.name} in ${color.name}, product view`,
+          alt:
+            color.imagePreviewAvailable === false
+              ? `${seed.name} in White; ${color.name} is currently in production`
+              : `${seed.name} in ${color.name}, product view`,
           width: color.image?.width ?? seed.image.width,
           height: color.image?.height ?? seed.image.height,
           blurDataURL: color.image ? undefined : seed.image.blurDataURL,
@@ -263,7 +279,9 @@ export const products: Product[] = seeds.map((seed) => ({
   })),
 }));
 
-export const publishedProducts = products.filter((product) => product.published);
+export const publishedProducts = products.filter(
+  (product) => product.published,
+);
 
 export function getPublishedProducts(locale: Locale = "en") {
   if (locale === "en") return publishedProducts;
@@ -278,7 +296,8 @@ export function getPublishedProducts(locale: Locale = "en") {
       shortDescription: translation.blurb,
       description: translation.blurb,
       category: product.category === "Tops" ? "Atasan" : "Bawahan",
-      material: "Tanyakan detail bahan terbaru kepada tim kami melalui WhatsApp.",
+      material:
+        "Tanyakan detail bahan terbaru kepada tim kami melalui WhatsApp.",
       careInstructions: [
         "Cuci lembut bersama warna serupa.",
         "Keringkan dengan udara di tempat teduh untuk membantu menjaga warna dan bentuk.",
@@ -294,10 +313,12 @@ export function getPublishedProducts(locale: Locale = "en") {
           colorSlug,
           images.map((image) => ({
             ...image,
-            alt: product.variants.find((variant) => variant.colorSlug === colorSlug)
-              ?.imagePreviewAvailable === false
-              ? `${translation.name} warna Putih; ${translation.colors[colorSlug] ?? colorSlug} sedang dalam produksi`
-              : `${translation.name} warna ${translation.colors[colorSlug] ?? colorSlug}, tampilan produk`,
+            alt:
+              product.variants.find(
+                (variant) => variant.colorSlug === colorSlug,
+              )?.imagePreviewAvailable === false
+                ? `${translation.name} warna Putih; ${translation.colors[colorSlug] ?? colorSlug} sedang dalam produksi`
+                : `${translation.name} warna ${translation.colors[colorSlug] ?? colorSlug}, tampilan produk`,
           })),
         ]),
       ),
