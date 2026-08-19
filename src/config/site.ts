@@ -3,8 +3,8 @@ export const siteConfig = {
   description:
     "Cheerful, easy-to-wear pieces for yoga, slow mornings, and sun-filled days.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://loomyna.vercel.app",
-  whatsappNumber: "6287777784634",
-  whatsappDisplay: "+62 877-7778-4634",
+  whatsappNumber: "6285196321545",
+  whatsappDisplay: "+62 851-9632-1545",
   announcement: "A little sunshine, made to move with you ☀",
   socialLinks: [
     { label: "Instagram", href: "https://www.instagram.com/loomyna.co" },
