@@ -6,7 +6,7 @@ type ProductSeed = {
   name: string;
   price: number;
   category: "Tops" | "Bottoms";
-  image: { width: number; height: number; blurDataURL: string };
+  image: { src?: string; width: number; height: number; blurDataURL: string };
   colors: {
     name: string;
     slug: string;
@@ -84,6 +84,7 @@ const seeds: ProductSeed[] = [
     price: 120000,
     category: "Bottoms",
     image: {
+      src: "/assets/products/linen-pants/butter/main-v1.webp",
       width: 1600,
       height: 2000,
       blurDataURL:
@@ -267,7 +268,10 @@ export const products: Product[] = seeds.map((seed) => ({
       color.slug,
       [
         {
-          src: color.image?.src ?? `/assets/products/${seed.slug}/main-v1.webp`,
+          src:
+            color.image?.src ??
+            seed.image.src ??
+            `/assets/products/${seed.slug}/main-v1.webp`,
           alt:
             color.imagePreviewAvailable === false
               ? `${seed.name} in White; ${color.name} is currently in production`
