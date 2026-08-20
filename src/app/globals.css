@@ -477,6 +477,201 @@ summary:focus-visible {
   scroll-margin-top: 100px;
 }
 
+.collection-page {
+  padding-block: 36px 96px;
+}
+
+.page-heading {
+  max-width: 900px;
+  margin-bottom: 44px;
+}
+
+.page-heading h1,
+.about-intro h1,
+.about-contact h2 {
+  margin: 0;
+  color: var(--blue-deep);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.5rem, 7vw, 5.8rem);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+}
+
+.page-heading > p:last-child,
+.about-intro > p:last-child,
+.about-contact > div > p:last-child {
+  max-width: 720px;
+  margin: 24px 0 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.about-page {
+  padding-block: 28px 104px;
+}
+
+.about-hero {
+  display: grid;
+  gap: 32px;
+}
+
+.about-intro {
+  align-self: center;
+}
+
+.about-image {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  background: var(--sky);
+}
+
+.about-image img {
+  object-fit: cover;
+}
+
+.about-story {
+  display: grid;
+  gap: 16px;
+  margin-top: 64px;
+}
+
+.about-story-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 360px;
+  padding: 32px;
+  border-radius: var(--radius-lg);
+}
+
+.about-story-card > span {
+  position: absolute;
+  top: 12px;
+  right: 24px;
+  color: var(--blue);
+  font-family: Georgia, serif;
+  font-size: 7rem;
+  line-height: 1;
+  opacity: 0.18;
+}
+
+.about-story-card h2 {
+  max-width: 540px;
+  margin: 130px 0 20px;
+  color: var(--blue-deep);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.about-story-card p {
+  max-width: 620px;
+  margin: 0;
+  line-height: 1.75;
+}
+
+.about-contact {
+  display: grid;
+  gap: 36px;
+  margin-top: 64px;
+  padding: 40px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+
+.about-contact h2 {
+  font-size: clamp(2.1rem, 5vw, 4.4rem);
+}
+
+.about-contact-links {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.policy-page {
+  padding-block: 28px 104px;
+}
+
+.policy-heading {
+  max-width: 980px;
+}
+
+.policy-sections {
+  display: grid;
+  gap: 18px;
+}
+
+.policy-section {
+  padding: 32px;
+  border-radius: var(--radius-lg);
+}
+
+.policy-section > h2,
+.policy-contact h2 {
+  margin: 0 0 36px;
+  color: var(--blue-deep);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.2rem, 5vw, 4.4rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.policy-item {
+  padding-block: 24px;
+  border-top: 1px solid rgba(21, 77, 168, 0.2);
+}
+
+.policy-item h3 {
+  margin: 0 0 10px;
+  color: var(--blue-deep);
+  font-size: 1rem;
+}
+
+.policy-item p {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.75;
+}
+
+.policy-contact {
+  display: grid;
+  gap: 32px;
+  margin-top: 64px;
+  padding: 40px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+
+.policy-contact h2 {
+  margin-bottom: 18px;
+}
+
+.policy-contact > div > p:last-child {
+  max-width: 680px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.policy-contact-links {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 18px;
+}
+
 .section-heading {
   display: grid;
   gap: 18px;
@@ -1127,6 +1322,22 @@ summary:focus-visible {
     align-items: end;
   }
 
+  .about-story {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .about-contact {
+    grid-template-columns: minmax(0, 1.3fr) minmax(230px, .7fr);
+    align-items: center;
+    padding: 56px;
+  }
+
+  .policy-contact {
+    grid-template-columns: minmax(0, 1.3fr) minmax(260px, .7fr);
+    align-items: center;
+    padding: 56px;
+  }
+
   .product-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 45px 18px;
@@ -1210,6 +1421,37 @@ summary:focus-visible {
 
   .collection {
     padding-block: 120px 140px;
+  }
+
+  .collection-page {
+    padding-block: 60px 140px;
+  }
+
+  .about-page {
+    padding-block: 48px 140px;
+  }
+
+  .policy-page {
+    padding-block: 48px 140px;
+  }
+
+  .about-hero {
+    grid-template-columns: minmax(330px, .8fr) minmax(0, 1.2fr);
+    gap: clamp(48px, 7vw, 110px);
+  }
+
+  .about-story,
+  .about-contact,
+  .policy-contact {
+    margin-top: 96px;
+  }
+
+  .policy-sections {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .policy-section {
+    padding: 52px;
   }
 
   .product-grid {

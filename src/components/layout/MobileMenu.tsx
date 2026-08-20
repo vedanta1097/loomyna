@@ -11,9 +11,9 @@ import { LanguageSelector } from "./LanguageSelector";
 
 const navigation = [
   { key: "shop", href: "/#shop" },
-  { key: "tops", href: "/#shop" },
-  { key: "bottoms", href: "/#shop" },
-  { key: "mood", href: "/#our-mood" },
+  { key: "tops", href: "/tops" },
+  { key: "bottoms", href: "/bottoms" },
+  { key: "about", href: "/about-us" },
 ] as const;
 
 export function MobileMenu({

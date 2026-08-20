@@ -3,6 +3,7 @@ export const siteConfig = {
   description:
     "Cheerful, easy-to-wear pieces for yoga, slow mornings, and sun-filled days.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://loomyna.id",
+  email: "loomyna.co@gmail.com",
   whatsappNumber: "6285196321545",
   whatsappDisplay: "+62 851-9632-1545",
   announcement: "A little sunshine, made to move with you ☀",
@@ -15,7 +16,7 @@ export const siteConfig = {
 
 export const navigation = [
   { label: "Shop all", href: "/#shop" },
-  { label: "Tops", href: "/#shop" },
-  { label: "Bottoms", href: "/#shop" },
-  { label: "Our mood", href: "/#our-mood" },
+  { label: "Tops", href: "/tops" },
+  { label: "Bottoms", href: "/bottoms" },
+  { label: "About us", href: "/about-us" },
 ] as const;

@@ -20,8 +20,9 @@ export function Footer({ dictionary }: { dictionary: Dictionary }) {
         <div>
           <p className="footer-heading">{dictionary.footer.explore}</p>
           <Link href="/#shop">{dictionary.navigation.shop}</Link>
-          <Link href="/#shop">{dictionary.navigation.tops}</Link>
-          <Link href="/#shop">{dictionary.navigation.bottoms}</Link>
+          <Link href="/tops">{dictionary.navigation.tops}</Link>
+          <Link href="/bottoms">{dictionary.navigation.bottoms}</Link>
+          <Link href="/about-us">{dictionary.navigation.about}</Link>
         </div>
         <div>
           <p className="footer-heading">{dictionary.footer.needHelp}</p>
@@ -33,6 +34,8 @@ export function Footer({ dictionary }: { dictionary: Dictionary }) {
           >
             {siteConfig.whatsappDisplay}
           </a>
+          <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+          <Link href="/shipping-returns">{dictionary.policies.metadataTitle}</Link>
         </div>
         <div>
           <p className="footer-heading">{dictionary.footer.followUs}</p>
