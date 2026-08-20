@@ -291,7 +291,7 @@ Color: Black
 Size: M
 Quantity: 1
 Price: Rp349.000
-Product: https://loomyna.vercel.app/products/luna-midi-dress
+Product: https://loomyna.id/products/luna-midi-dress
 ```
 
 The WhatsApp link will use:
