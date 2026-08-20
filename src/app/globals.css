@@ -829,7 +829,8 @@ summary:focus-visible {
   box-shadow: 0 0 0 1px rgba(20,45,89,.25);
 }
 
-.color-options .variant-status {
+.color-options .variant-status,
+.size-options .variant-status {
   padding: 3px 7px;
   border-radius: 99px;
   background: var(--yellow-soft);
@@ -838,6 +839,42 @@ summary:focus-visible {
   font-weight: 750;
   letter-spacing: 0.03em;
   text-transform: uppercase;
+}
+
+.size-options .variant-status {
+  margin-left: 2px;
+}
+
+.add-on-options label {
+  display: grid;
+  min-height: 54px;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 15px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--white);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 0.84rem;
+}
+
+.add-on-options input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--blue);
+}
+
+.add-on-options label:has(input:checked) {
+  border-color: var(--blue);
+  box-shadow: inset 0 0 0 1px var(--blue);
+}
+
+.add-on-price {
+  color: var(--blue);
+  font-size: 0.76rem;
+  font-weight: 700;
 }
 
 .preorder-notice {

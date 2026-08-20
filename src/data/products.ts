@@ -15,9 +15,17 @@ type ProductSeed = {
     status?: "in-stock" | "pre-order" | "sold-out";
     estimatedShipping?: string;
     imagePreviewAvailable?: boolean;
+    variants?: {
+      size: string;
+      status?: "in-stock" | "pre-order" | "sold-out";
+      estimatedShipping?: string;
+      estimatedCompletion?: string;
+    }[];
   }[];
   blurb: string;
   badge?: "new" | "featured" | "bestseller";
+  sizeGuide?: string[];
+  addOns?: { id: string; name: string; price: number }[];
 };
 
 const seeds: ProductSeed[] = [
@@ -77,6 +85,7 @@ const seeds: ProductSeed[] = [
     blurb:
       "A sweet halter silhouette for stretches, seaside walks, and everything after.",
     badge: "featured",
+    addOns: [{ id: "cup-bra", name: "Cup Bra", price: 22000 }],
   },
   {
     slug: "linen-pants",
@@ -100,6 +109,7 @@ const seeds: ProductSeed[] = [
           width: 1600,
           height: 2000,
         },
+        variants: linenPantsVariants(true),
       },
       {
         name: "Blue",
@@ -110,6 +120,7 @@ const seeds: ProductSeed[] = [
           width: 1600,
           height: 2000,
         },
+        variants: linenPantsVariants(true),
       },
       {
         name: "Pink",
@@ -120,23 +131,27 @@ const seeds: ProductSeed[] = [
           width: 803,
           height: 1004,
         },
+        variants: linenPantsVariants(true),
       },
       {
         name: "Black",
         slug: "black",
         hex: "#171717",
         imagePreviewAvailable: false,
+        variants: linenPantsVariants(false),
       },
       {
         name: "Broken White",
         slug: "broken-white",
         hex: "#EEEBE3",
         imagePreviewAvailable: false,
+        variants: linenPantsVariants(false),
       },
     ],
     blurb:
       "An easy, airy shape that brings a little sunshine to everyday dressing.",
     badge: "new",
+    sizeGuide: ["Available in S, M, L, and XL. Contact us for garment measurements."],
   },
   {
     slug: "rib-halter-neck",
@@ -163,6 +178,7 @@ const seeds: ProductSeed[] = [
     blurb:
       "A clean ribbed halter made for pairing, layering, and moving freely.",
     badge: "new",
+    addOns: [{ id: "cup-bra", name: "Cup Bra", price: 22000 }],
   },
   {
     slug: "loomy-crop-top",
@@ -204,9 +220,35 @@ const seeds: ProductSeed[] = [
   },
 ];
 
+function linenPantsVariants(includeReadySizes: boolean) {
+  return [
+    ...(includeReadySizes
+      ? [
+          { size: "S", status: "in-stock" as const },
+          { size: "M", status: "in-stock" as const },
+        ]
+      : []),
+    {
+      size: "L",
+      status: "pre-order" as const,
+      estimatedCompletion: "2026-08-31",
+    },
+    {
+      size: "XL",
+      status: "pre-order" as const,
+      estimatedCompletion: "2026-08-31",
+    },
+  ];
+}
+
 const indonesianProducts: Record<
   string,
-  { name: string; blurb: string; colors: Record<string, string> }
+  {
+    name: string;
+    blurb: string;
+    colors: Record<string, string>;
+    addOns?: Record<string, string>;
+  }
 > = {
   "halter-neck": {
     name: "Atasan Halter",
@@ -218,18 +260,26 @@ const indonesianProducts: Record<
       "pink-blue": "Merah Muda Biru",
       "pink-butter": "Merah Muda Kuning",
     },
+    addOns: { "cup-bra": "Cup Bra" },
   },
   "linen-pants": {
     name: "Celana Linen",
     blurb:
       "Potongan ringan dan nyaman yang membawa sedikit keceriaan ke gaya sehari-hari.",
-    colors: { butter: "Kuning Mentega", blue: "Biru", pink: "Merah Muda" },
+    colors: {
+      butter: "Kuning Mentega",
+      blue: "Biru",
+      pink: "Merah Muda",
+      black: "Hitam",
+      "broken-white": "Broken White",
+    },
   },
   "rib-halter-neck": {
     name: "Atasan Halter Rib",
     blurb:
       "Atasan halter rib yang simpel untuk dipadukan, dilapis, dan bergerak dengan bebas.",
     colors: { white: "Putih", black: "Hitam" },
+    addOns: { "cup-bra": "Cup Bra" },
   },
   "loomy-crop-top": {
     name: "Loomy Crop Top",
@@ -259,7 +309,7 @@ export const products: Product[] = seeds.map((seed) => ({
     "Wash gently with similar colors.",
     "Air dry in the shade to help preserve color and shape.",
   ],
-  sizeGuide: ["All size — contact us for current garment measurements."],
+  sizeGuide: seed.sizeGuide ?? ["All size — contact us for current garment measurements."],
   badges: seed.badge ? [seed.badge] : undefined,
   published: true,
   featured: true,
@@ -274,7 +324,7 @@ export const products: Product[] = seeds.map((seed) => ({
             `/assets/products/${seed.slug}/main-v1.webp`,
           alt:
             color.imagePreviewAvailable === false
-              ? `${seed.name} in White; ${color.name} is currently in production`
+              ? `${seed.name} product view; ${color.name} preview is not available yet`
               : `${seed.name} in ${color.name}, product view`,
           width: color.image?.width ?? seed.image.width,
           height: color.image?.height ?? seed.image.height,
@@ -283,16 +333,26 @@ export const products: Product[] = seeds.map((seed) => ({
       ],
     ]),
   ),
-  variants: seed.colors.map((color, index) => ({
-    sku: `LOO-${seed.slug.replaceAll("-", "").slice(0, 8).toUpperCase()}-${index + 1}-OS`,
-    color: color.name,
-    colorSlug: color.slug,
-    colorHex: color.hex,
-    size: "All Size",
-    status: color.status ?? "in-stock",
-    estimatedShipping: color.estimatedShipping,
-    imagePreviewAvailable: color.imagePreviewAvailable ?? true,
-  })),
+  variants: seed.colors.flatMap((color, colorIndex) =>
+    (color.variants ?? [
+      {
+        size: "All Size",
+        status: color.status ?? "in-stock",
+        estimatedShipping: color.estimatedShipping,
+      },
+    ]).map((variant, sizeIndex) => ({
+      sku: `LOO-${seed.slug.replaceAll("-", "").slice(0, 8).toUpperCase()}-${colorIndex + 1}-${variant.size.replaceAll(" ", "").toUpperCase()}-${sizeIndex + 1}`,
+      color: color.name,
+      colorSlug: color.slug,
+      colorHex: color.hex,
+      size: variant.size,
+      status: variant.status ?? "in-stock",
+      estimatedShipping: variant.estimatedShipping,
+      estimatedCompletion: variant.estimatedCompletion,
+      imagePreviewAvailable: color.imagePreviewAvailable ?? true,
+    })),
+  ),
+  addOns: seed.addOns,
 }));
 
 export const publishedProducts = products.filter(
@@ -319,10 +379,21 @@ export function getPublishedProducts(locale: Locale = "en") {
         "Keringkan dengan udara di tempat teduh untuk membantu menjaga warna dan bentuk.",
       ],
       sizeGuide: ["Semua ukuran — hubungi kami untuk ukuran pakaian terbaru."],
+      ...(product.slug === "linen-pants"
+        ? {
+            sizeGuide: [
+              "Tersedia dalam ukuran S, M, L, dan XL. Hubungi kami untuk ukuran pakaian.",
+            ],
+          }
+        : {}),
       variants: product.variants.map((variant) => ({
         ...variant,
         color: translation.colors[variant.colorSlug] ?? variant.color,
         size: variant.size === "All Size" ? "Semua Ukuran" : variant.size,
+      })),
+      addOns: product.addOns?.map((addOn) => ({
+        ...addOn,
+        name: translation.addOns?.[addOn.id] ?? addOn.name,
       })),
       imagesByColor: Object.fromEntries(
         Object.entries(product.imagesByColor).map(([colorSlug, images]) => [
@@ -333,7 +404,7 @@ export function getPublishedProducts(locale: Locale = "en") {
               product.variants.find(
                 (variant) => variant.colorSlug === colorSlug,
               )?.imagePreviewAvailable === false
-                ? `${translation.name} warna Putih; ${translation.colors[colorSlug] ?? colorSlug} sedang dalam produksi`
+                ? `Tampilan produk ${translation.name}; pratinjau warna ${translation.colors[colorSlug] ?? colorSlug} belum tersedia`
                 : `${translation.name} warna ${translation.colors[colorSlug] ?? colorSlug}, tampilan produk`,
           })),
         ]),

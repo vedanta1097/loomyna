@@ -32,8 +32,23 @@ for (const product of products) {
     if (!product.imagesByColor[variant.colorSlug]) {
       errors.push(`${product.slug}: ${variant.colorSlug} has no image mapping`);
     }
-    if (variant.status === "pre-order" && !variant.estimatedShipping) {
-      errors.push(`${product.slug}: ${variant.colorSlug} pre-order has no estimated shipping date`);
+    if (
+      variant.status === "pre-order" &&
+      !variant.estimatedShipping &&
+      !variant.estimatedCompletion
+    ) {
+      errors.push(`${product.slug}: ${variant.colorSlug}/${variant.size} pre-order has no estimated date`);
+    }
+  }
+
+  const addOnIds = new Set<string>();
+  for (const addOn of product.addOns ?? []) {
+    if (addOnIds.has(addOn.id)) {
+      errors.push(`${product.slug}: duplicate add-on id ${addOn.id}`);
+    }
+    addOnIds.add(addOn.id);
+    if (!Number.isInteger(addOn.price) || addOn.price <= 0) {
+      errors.push(`${product.slug}: add-on ${addOn.id} price must be a positive integer`);
     }
   }
 

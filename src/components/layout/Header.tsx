@@ -42,7 +42,7 @@ export function Header({
           aria-label={dictionary.navigation.mainLabel}
         >
           {navigation.map((item) => (
-            <Link key={item.href} href={item.href}>
+            <Link key={item.key} href={item.href}>
               {dictionary.navigation[item.key]}
             </Link>
           ))}

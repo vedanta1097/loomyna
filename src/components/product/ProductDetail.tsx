@@ -20,6 +20,7 @@ export function ProductDetail({
 }) {
   const [selectedColor, setSelectedColor] = useState<string>();
   const [selectedSize, setSelectedSize] = useState<string>();
+  const [selectedAddOnIds, setSelectedAddOnIds] = useState<string[]>([]);
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
 
@@ -42,10 +43,18 @@ export function ProductDetail({
       variant.status !== "sold-out",
   );
   const selectedColorName = selectedColorVariant?.color;
-  const isPreOrder = selectedColorVariant?.status === "pre-order";
-  const estimatedShipping = selectedColorVariant?.estimatedShipping
-    ? formatShippingDate(selectedColorVariant.estimatedShipping, locale)
+  const isPreOrder = selectedVariant?.status === "pre-order";
+  const estimatedShipping = selectedVariant?.estimatedShipping
+    ? formatOrderDate(selectedVariant.estimatedShipping, locale)
     : undefined;
+  const estimatedCompletion = selectedVariant?.estimatedCompletion
+    ? formatOrderDate(selectedVariant.estimatedCompletion, locale)
+    : undefined;
+  const selectedAddOns = (product.addOns ?? []).filter((addOn) =>
+    selectedAddOnIds.includes(addOn.id),
+  );
+  const unitPrice =
+    product.price + selectedAddOns.reduce((total, addOn) => total + addOn.price, 0);
   const canCheckout = Boolean(selectedVariant);
   const shopeeUrl = selectedVariant?.shopeeUrl ?? product.shopeeUrl;
 
@@ -55,10 +64,15 @@ export function ProductDetail({
         color: selectedColorName!,
         size: selectedSize!,
         quantity,
-        formattedPrice: formatIDR(product.price * quantity),
+        formattedPrice: formatIDR(unitPrice * quantity),
+        addOns: selectedAddOns.map((addOn) => ({
+          name: addOn.name,
+          formattedUnitPrice: formatIDR(addOn.price),
+        })),
         productUrl: `${siteConfig.url}/products/${product.slug}`,
         orderType: selectedVariant!.status,
         estimatedShipping,
+        estimatedCompletion,
       }, locale)
     : undefined;
 
@@ -74,6 +88,14 @@ export function ProductDetail({
         variant.colorSlug === selectedColor &&
         variant.size === size &&
         variant.status !== "sold-out",
+    );
+  }
+
+  function toggleAddOn(addOnId: string) {
+    setSelectedAddOnIds((current) =>
+      current.includes(addOnId)
+        ? current.filter((id) => id !== addOnId)
+        : [...current, addOnId],
     );
   }
 
@@ -154,7 +176,9 @@ export function ProductDetail({
               >
                 <span className="color-swatch" style={{ background: color.colorHex }} />
                 {color.color}
-                {color.status === "pre-order" ? (
+                {product.variants
+                  .filter((variant) => variant.colorSlug === color.colorSlug)
+                  .every((variant) => variant.status === "pre-order") ? (
                   <span className="variant-status">{labels.preOrder}</span>
                 ) : null}
               </button>
@@ -173,7 +197,13 @@ export function ProductDetail({
               {estimatedShipping ? (
                 <>
                   {` ${labels.estimatedShipping}: `}
-                  <time dateTime={selectedColorVariant?.estimatedShipping}>{estimatedShipping}</time>.
+                  <time dateTime={selectedVariant?.estimatedShipping}>{estimatedShipping}</time>.
+                </>
+              ) : null}
+              {estimatedCompletion ? (
+                <>
+                  {` ${labels.estimatedCompletion}: `}
+                  <time dateTime={selectedVariant?.estimatedCompletion}>{estimatedCompletion}</time>.
                 </>
               ) : null}
             </p>
@@ -187,6 +217,10 @@ export function ProductDetail({
           <div className="size-options">
             {sizes.map((size) => {
               const available = Boolean(selectedColor && sizeIsAvailable(size));
+              const sizeVariant = product.variants.find(
+                (variant) =>
+                  variant.colorSlug === selectedColor && variant.size === size,
+              );
               return (
                 <button
                   type="button"
@@ -197,11 +231,37 @@ export function ProductDetail({
                   onClick={() => setSelectedSize(size)}
                 >
                   {size}
+                  {sizeVariant?.status === "pre-order" ? (
+                    <span className="variant-status">{labels.preOrder}</span>
+                  ) : null}
                 </button>
               );
             })}
           </div>
         </fieldset>
+
+        {product.addOns?.length ? (
+          <fieldset className="option-group add-on-group">
+            <legend>
+              {labels.addOns} <span>{labels.optional}</span>
+            </legend>
+            <div className="add-on-options">
+              {product.addOns.map((addOn) => (
+                <label key={addOn.id}>
+                  <input
+                    type="checkbox"
+                    checked={selectedAddOnIds.includes(addOn.id)}
+                    onChange={() => toggleAddOn(addOn.id)}
+                  />
+                  <span>{addOn.name}</span>
+                  <span className="add-on-price">
+                    +{formatIDR(addOn.price)} {labels.each}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        ) : null}
 
         <div className="quantity-row">
           <span>{labels.quantity}</span>
@@ -227,7 +287,7 @@ export function ProductDetail({
 
         <p className="selection-summary" aria-live="polite">
           {canCheckout
-            ? `${selectedColorName} · ${selectedSize} · ${quantity} ${quantity === 1 ? labels.piece : labels.pieces}${isPreOrder ? ` · ${labels.preOrder}` : ""}`
+            ? `${selectedColorName} · ${selectedSize} · ${quantity} ${quantity === 1 ? labels.piece : labels.pieces}${selectedAddOns.length ? ` · + ${selectedAddOns.map((addOn) => addOn.name).join(", ")}` : ""}${isPreOrder ? ` · ${labels.preOrder}` : ""} · ${formatIDR(unitPrice * quantity)}`
             : labels.selectOptions}
         </p>
 
@@ -276,7 +336,7 @@ export function ProductDetail({
   );
 }
 
-function formatShippingDate(value: string, locale: Locale) {
+function formatOrderDate(value: string, locale: Locale) {
   return new Intl.DateTimeFormat(locale === "id" ? "id-ID" : "en-GB", {
     day: "numeric",
     month: "long",

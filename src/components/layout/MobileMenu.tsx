@@ -95,7 +95,7 @@ export function MobileMenu({
                   <p className="eyebrow">{dictionary.header.menuEyebrow}</p>
                   {navigation.map((item) => (
                     <Link
-                      key={item.href}
+                      key={item.key}
                       href={item.href}
                       onClick={() => setOpen(false)}
                     >

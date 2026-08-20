@@ -17,8 +17,15 @@ export type ProductVariant = {
   size: string;
   status: ProductVariantStatus;
   estimatedShipping?: string;
+  estimatedCompletion?: string;
   imagePreviewAvailable?: boolean;
   shopeeUrl?: string;
+};
+
+export type ProductAddOn = {
+  id: string;
+  name: string;
+  price: number;
 };
 
 export type Product = {
@@ -38,6 +45,7 @@ export type Product = {
   featured: boolean;
   imagesByColor: Record<string, ProductImage[]>;
   variants: ProductVariant[];
+  addOns?: ProductAddOn[];
   shopeeUrl?: string;
 };
 

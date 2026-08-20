@@ -8,9 +8,11 @@ type WhatsAppOrder = {
   size: string;
   quantity: number;
   formattedPrice: string;
+  addOns?: { name: string; formattedUnitPrice: string }[];
   productUrl: string;
   orderType: ProductVariantStatus;
   estimatedShipping?: string;
+  estimatedCompletion?: string;
 };
 
 export function buildWhatsAppUrl(order: WhatsAppOrder, locale: Locale = "en") {
@@ -22,12 +24,20 @@ export function buildWhatsAppUrl(order: WhatsAppOrder, locale: Locale = "en") {
         `Warna: ${order.color}`,
         `Ukuran: ${order.size}`,
         `Jumlah: ${order.quantity}`,
-        `Harga: ${order.formattedPrice}`,
+        ...(order.addOns?.length
+          ? [
+              `Add-on: ${order.addOns.map((addOn) => `${addOn.name} (+${addOn.formattedUnitPrice}/produk)`).join(", ")}`,
+            ]
+          : []),
+        `Total: ${order.formattedPrice}`,
         ...(order.orderType === "pre-order"
           ? [
               "Jenis pesanan: Pre-order",
               ...(order.estimatedShipping
                 ? [`Estimasi pengiriman: ${order.estimatedShipping}`]
+                : []),
+              ...(order.estimatedCompletion
+                ? [`Estimasi selesai produksi: ${order.estimatedCompletion}`]
                 : []),
             ]
           : []),
@@ -40,12 +50,20 @@ export function buildWhatsAppUrl(order: WhatsAppOrder, locale: Locale = "en") {
         `Color: ${order.color}`,
         `Size: ${order.size}`,
         `Quantity: ${order.quantity}`,
-        `Price: ${order.formattedPrice}`,
+        ...(order.addOns?.length
+          ? [
+              `Add-on: ${order.addOns.map((addOn) => `${addOn.name} (+${addOn.formattedUnitPrice}/item)`).join(", ")}`,
+            ]
+          : []),
+        `Total: ${order.formattedPrice}`,
         ...(order.orderType === "pre-order"
           ? [
               "Order type: Pre-order",
               ...(order.estimatedShipping
                 ? [`Estimated shipping: ${order.estimatedShipping}`]
+                : []),
+              ...(order.estimatedCompletion
+                ? [`Estimated production completion: ${order.estimatedCompletion}`]
                 : []),
             ]
           : []),
