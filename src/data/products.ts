@@ -151,7 +151,7 @@ const seeds: ProductSeed[] = [
     blurb:
       "An easy, airy shape that brings a little sunshine to everyday dressing.",
     badge: "new",
-    sizeGuide: ["Available in S, M, L, and XL. Contact us for garment measurements."],
+    sizeGuide: ["Available in S-M and L-XL. Contact us for garment measurements."],
   },
   {
     slug: "rib-halter-neck",
@@ -224,17 +224,11 @@ function linenPantsVariants(includeReadySizes: boolean) {
   return [
     ...(includeReadySizes
       ? [
-          { size: "S", status: "in-stock" as const },
-          { size: "M", status: "in-stock" as const },
+          { size: "S-M", status: "in-stock" as const },
         ]
       : []),
     {
-      size: "L",
-      status: "pre-order" as const,
-      estimatedCompletion: "2026-08-31",
-    },
-    {
-      size: "XL",
+      size: "L-XL",
       status: "pre-order" as const,
       estimatedCompletion: "2026-08-31",
     },
@@ -382,7 +376,7 @@ export function getPublishedProducts(locale: Locale = "en") {
       ...(product.slug === "linen-pants"
         ? {
             sizeGuide: [
-              "Tersedia dalam ukuran S, M, L, dan XL. Hubungi kami untuk ukuran pakaian.",
+              "Tersedia dalam ukuran S-M dan L-XL. Hubungi kami untuk ukuran pakaian.",
             ],
           }
         : {}),
