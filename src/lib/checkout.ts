@@ -13,9 +13,13 @@ type WhatsAppOrder = {
   orderType: ProductVariantStatus;
   estimatedShipping?: string;
   estimatedCompletion?: string;
+  deliveryDestination: DeliveryDestination;
 };
 
+export type DeliveryDestination = "bali" | "indonesia" | "international";
+
 export function buildWhatsAppUrl(order: WhatsAppOrder, locale: Locale = "en") {
+  const delivery = getDeliveryDetails(order.deliveryDestination, locale);
   const message = locale === "id"
     ? [
         "Halo Loomyna, saya ingin memesan:",
@@ -24,6 +28,9 @@ export function buildWhatsAppUrl(order: WhatsAppOrder, locale: Locale = "en") {
         `Warna: ${order.color}`,
         `Ukuran: ${order.size}`,
         `Jumlah: ${order.quantity}`,
+        `Tujuan pengiriman: ${delivery.destination}`,
+        `Metode pengiriman: ${delivery.method}`,
+        "Biaya pengiriman: Akan dikonfirmasi",
         ...(order.addOns?.length
           ? [
               `Add-on: ${order.addOns.map((addOn) => `${addOn.name} (+${addOn.formattedUnitPrice}/produk)`).join(", ")}`,
@@ -50,6 +57,9 @@ export function buildWhatsAppUrl(order: WhatsAppOrder, locale: Locale = "en") {
         `Color: ${order.color}`,
         `Size: ${order.size}`,
         `Quantity: ${order.quantity}`,
+        `Delivery destination: ${delivery.destination}`,
+        `Delivery method: ${delivery.method}`,
+        "Shipping cost: To be confirmed",
         ...(order.addOns?.length
           ? [
               `Add-on: ${order.addOns.map((addOn) => `${addOn.name} (+${addOn.formattedUnitPrice}/item)`).join(", ")}`,
@@ -71,4 +81,33 @@ export function buildWhatsAppUrl(order: WhatsAppOrder, locale: Locale = "en") {
       ];
 
   return `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(message.join("\n"))}`;
+}
+
+function getDeliveryDetails(destination: DeliveryDestination, locale: Locale) {
+  const details = {
+    en: {
+      bali: { destination: "Bali", method: "Gojek, Grab, or similar local courier" },
+      indonesia: {
+        destination: "Elsewhere in Indonesia",
+        method: "JNE or another domestic courier",
+      },
+      international: {
+        destination: "Outside Indonesia",
+        method: "International shipping (availability to be confirmed)",
+      },
+    },
+    id: {
+      bali: { destination: "Bali", method: "Gojek, Grab, atau kurir lokal serupa" },
+      indonesia: {
+        destination: "Luar Bali, masih di Indonesia",
+        method: "JNE atau ekspedisi domestik lainnya",
+      },
+      international: {
+        destination: "Luar Indonesia",
+        method: "Pengiriman internasional (ketersediaan akan dikonfirmasi)",
+      },
+    },
+  } as const;
+
+  return details[locale][destination];
 }

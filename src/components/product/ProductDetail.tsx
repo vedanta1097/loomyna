@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { siteConfig } from "@/config/site";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { buildWhatsAppUrl } from "@/lib/checkout";
+import { buildWhatsAppUrl, type DeliveryDestination } from "@/lib/checkout";
 import { formatIDR } from "@/lib/format";
 import type { Product } from "@/types/product";
 
@@ -22,6 +22,7 @@ export function ProductDetail({
   const [selectedSize, setSelectedSize] = useState<string>();
   const [selectedAddOnIds, setSelectedAddOnIds] = useState<string[]>([]);
   const [quantity, setQuantity] = useState(1);
+  const [deliveryDestination, setDeliveryDestination] = useState<DeliveryDestination>();
   const [activeImage, setActiveImage] = useState(0);
 
   const colors = useMemo(
@@ -56,9 +57,34 @@ export function ProductDetail({
   const unitPrice =
     product.price + selectedAddOns.reduce((total, addOn) => total + addOn.price, 0);
   const canCheckout = Boolean(selectedVariant);
+  const canOrderWhatsApp = canCheckout && Boolean(deliveryDestination);
   const shopeeUrl = selectedVariant?.shopeeUrl ?? product.shopeeUrl;
+  const deliveryOptions: Array<{
+    value: DeliveryDestination;
+    label: string;
+    description: string;
+  }> = [
+    {
+      value: "bali",
+      label: labels.deliveryBali,
+      description: labels.deliveryBaliDescription,
+    },
+    {
+      value: "indonesia",
+      label: labels.deliveryIndonesia,
+      description: labels.deliveryIndonesiaDescription,
+    },
+    {
+      value: "international",
+      label: labels.deliveryInternational,
+      description: labels.deliveryInternationalDescription,
+    },
+  ];
+  const selectedDelivery = deliveryOptions.find(
+    (option) => option.value === deliveryDestination,
+  );
 
-  const whatsappUrl = canCheckout
+  const whatsappUrl = canOrderWhatsApp
     ? buildWhatsAppUrl({
         productName: product.name,
         color: selectedColorName!,
@@ -73,6 +99,7 @@ export function ProductDetail({
         orderType: selectedVariant!.status,
         estimatedShipping,
         estimatedCompletion,
+        deliveryDestination: deliveryDestination!,
       }, locale)
     : undefined;
 
@@ -285,9 +312,36 @@ export function ProductDetail({
           </div>
         </div>
 
+        <fieldset className="option-group delivery-group">
+          <legend>
+            {labels.deliveryDestination}{" "}
+            <span>{selectedDelivery?.label ?? labels.required}</span>
+          </legend>
+          <div className="delivery-options">
+            {deliveryOptions.map((option) => (
+              <label key={option.value}>
+                <input
+                  type="radio"
+                  name="delivery-destination"
+                  value={option.value}
+                  checked={deliveryDestination === option.value}
+                  onChange={() => setDeliveryDestination(option.value)}
+                />
+                <span>
+                  <strong>{option.label}</strong>
+                  <small>{option.description}</small>
+                </span>
+              </label>
+            ))}
+          </div>
+          <p className="delivery-note">{labels.deliveryNote}</p>
+        </fieldset>
+
         <p className="selection-summary" aria-live="polite">
-          {canCheckout
-            ? `${selectedColorName} · ${selectedSize} · ${quantity} ${quantity === 1 ? labels.piece : labels.pieces}${selectedAddOns.length ? ` · + ${selectedAddOns.map((addOn) => addOn.name).join(", ")}` : ""}${isPreOrder ? ` · ${labels.preOrder}` : ""} · ${formatIDR(unitPrice * quantity)}`
+          {canOrderWhatsApp
+            ? `${selectedColorName} · ${selectedSize} · ${quantity} ${quantity === 1 ? labels.piece : labels.pieces}${selectedAddOns.length ? ` · + ${selectedAddOns.map((addOn) => addOn.name).join(", ")}` : ""}${isPreOrder ? ` · ${labels.preOrder}` : ""} · ${selectedDelivery?.label} · ${formatIDR(unitPrice * quantity)}`
+            : canCheckout
+              ? labels.selectDeliveryDestination
             : labels.selectOptions}
         </p>
 
