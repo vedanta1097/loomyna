@@ -11,6 +11,7 @@ export const siteConfig = {
     { label: "Instagram", href: "https://www.instagram.com/loomyna.co" },
     { label: "TikTok", href: "https://www.tiktok.com/@loomyna.co" },
     { label: "Threads", href: "https://www.threads.net/@loomyna.co" },
+    { label: "Shopee", href: "https://id.shp.ee/qr4YtuSw" },
   ],
 } as const;
 
