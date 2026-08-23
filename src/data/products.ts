@@ -29,6 +29,7 @@ type ProductSeed = {
   sizeGuide?: string[];
   sizeMeasurements?: Product["sizeMeasurements"];
   addOns?: { id: string; name: string; price: number }[];
+  shopeeUrl?: string;
 };
 
 const seeds: ProductSeed[] = [
@@ -80,6 +81,7 @@ const seeds: ProductSeed[] = [
       "A sweet halter silhouette for stretches, seaside walks, and everything after.",
     badge: "featured",
     addOns: [{ id: "cup-bra", name: "Cup Bra", price: 22000 }],
+    shopeeUrl: "https://id.shp.ee/EzNeMraG",
   },
   {
     slug: "linen-pants",
@@ -138,6 +140,7 @@ const seeds: ProductSeed[] = [
       { size: "S-M", waist: 100, thigh: 60, length: 105 },
       { size: "L-XL", waist: 100, thigh: 70, length: 105 },
     ],
+    shopeeUrl: "https://id.shp.ee/wDwqggxp",
   },
   {
     slug: "rib-halter-neck",
@@ -170,6 +173,7 @@ const seeds: ProductSeed[] = [
       "A clean ribbed halter made for pairing, layering, and moving freely.",
     badge: "new",
     addOns: [{ id: "cup-bra", name: "Cup Bra", price: 22000 }],
+    shopeeUrl: "https://id.shp.ee/Y1bqzbUf",
   },
   {
     slug: "loomy-crop-top",
@@ -247,6 +251,7 @@ const seeds: ProductSeed[] = [
       "A clean everyday halter with an easy fit for movement, layering, and sunny plans.",
     badge: "new",
     addOns: [{ id: "cup-bra", name: "Cup Bra", price: 22000 }],
+    shopeeUrl: "https://id.shp.ee/4cNiaNe6",
   },
   {
     slug: "bandana",
@@ -278,6 +283,7 @@ const seeds: ProductSeed[] = [
     blurb:
       "A playful finishing touch for tying up your hair or adding a cheerful accent to your look.",
     badge: "new",
+    shopeeUrl: "https://id.shp.ee/W2ZqDDwX",
   },
   {
     slug: "bandana-rajut",
@@ -497,6 +503,7 @@ export const products: Product[] = seeds.map((seed) => {
       })),
     ),
     addOns: seed.addOns,
+    shopeeUrl: seed.shopeeUrl,
   };
 });
 
