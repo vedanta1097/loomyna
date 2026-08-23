@@ -196,6 +196,10 @@ const en = {
       "Opening WhatsApp starts a chat; your order is confirmed once our team replies.",
     details: "Details",
     sizeFit: "Size & fit",
+    measurementSize: "Size",
+    measurementWaist: "Waist (cm)",
+    measurementThigh: "Thigh (cm)",
+    measurementLength: "Length (cm)",
     care: "Care",
   },
   notFound: {

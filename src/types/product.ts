@@ -28,6 +28,13 @@ export type ProductAddOn = {
   price: number;
 };
 
+export type ProductSizeMeasurement = {
+  size: string;
+  waist: number;
+  thigh: number;
+  length: number;
+};
+
 export type Product = {
   id: string;
   slug: string;
@@ -40,6 +47,7 @@ export type Product = {
   material?: string;
   careInstructions?: string[];
   sizeGuide?: string[];
+  sizeMeasurements?: ProductSizeMeasurement[];
   badges?: ProductBadge[];
   published: boolean;
   featured: boolean;

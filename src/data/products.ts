@@ -23,8 +23,10 @@ type ProductSeed = {
     }[];
   }[];
   blurb: string;
+  material?: string;
   badge?: "new" | "featured" | "bestseller";
   sizeGuide?: string[];
+  sizeMeasurements?: Product["sizeMeasurements"];
   addOns?: { id: string; name: string; price: number }[];
 };
 
@@ -150,8 +152,12 @@ const seeds: ProductSeed[] = [
     ],
     blurb:
       "An easy, airy shape that brings a little sunshine to everyday dressing.",
+    material: "Made from 100% cotton with a linen look. Soft and breathable.",
     badge: "new",
-    sizeGuide: ["Available in S-M and L-XL. Contact us for garment measurements."],
+    sizeMeasurements: [
+      { size: "S-M", waist: 100, thigh: 60, length: 105 },
+      { size: "L-XL", waist: 100, thigh: 70, length: 105 },
+    ],
   },
   {
     slug: "rib-halter-neck",
@@ -298,12 +304,18 @@ export const products: Product[] = seeds.map((seed) => ({
   shortDescription: seed.blurb,
   description: seed.blurb,
   category: seed.category,
-  material: "Ask our team on WhatsApp for the latest fabric details.",
+  material:
+    seed.material ?? "Ask our team on WhatsApp for the latest fabric details.",
   careInstructions: [
     "Wash gently with similar colors.",
     "Air dry in the shade to help preserve color and shape.",
   ],
-  sizeGuide: seed.sizeGuide ?? ["All size — contact us for current garment measurements."],
+  sizeGuide:
+    seed.sizeGuide ??
+    (seed.sizeMeasurements
+      ? undefined
+      : ["All size — contact us for current garment measurements."]),
+  sizeMeasurements: seed.sizeMeasurements,
   badges: seed.badge ? [seed.badge] : undefined,
   published: true,
   featured: true,
@@ -375,9 +387,9 @@ export function getPublishedProducts(locale: Locale = "en") {
       sizeGuide: ["Semua ukuran — hubungi kami untuk ukuran pakaian terbaru."],
       ...(product.slug === "linen-pants"
         ? {
-            sizeGuide: [
-              "Tersedia dalam ukuran S-M dan L-XL. Hubungi kami untuk ukuran pakaian.",
-            ],
+            material:
+              "Terbuat dari 100% katun dengan tampilan linen. Lembut dan sejuk.",
+            sizeGuide: undefined,
           }
         : {}),
       variants: product.variants.map((variant) => ({

@@ -937,6 +937,7 @@ summary:focus-visible {
 }
 
 .product-panel {
+  min-width: 0;
   align-self: start;
 }
 
@@ -1226,11 +1227,41 @@ summary:focus-visible {
 .product-notes ul {
   margin: 12px 0 0;
   padding-left: 20px;
+  list-style: disc;
+}
+
+.product-notes li::marker {
+  color: var(--blue);
+}
+
+.size-table-wrap {
+  overflow-x: auto;
+  margin-top: 14px;
+}
+
+.size-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-align: left;
+}
+
+.size-table th,
+.size-table td {
+  padding: 9px 6px;
+  border: 1px solid var(--line);
+  overflow-wrap: anywhere;
+}
+
+.size-table th {
+  color: var(--blue-deep);
+  font-weight: 700;
 }
 
 .related {
   padding-block: 80px 110px;
-  border-top: 1px solid var(--line);
 }
 
 .related h2 {
@@ -1348,6 +1379,15 @@ summary:focus-visible {
 @media (min-width: 700px) {
   .shell {
     width: min(100% - 64px, 1400px);
+  }
+
+  .size-table {
+    font-size: 0.8rem;
+  }
+
+  .size-table th,
+  .size-table td {
+    padding: 10px 12px;
   }
 
   .header-chat span {

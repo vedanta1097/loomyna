@@ -374,11 +374,35 @@ export function ProductDetail({
             <summary>{labels.details}</summary>
             <p>{product.material}</p>
           </details>
-          <details>
+          <details open>
             <summary>{labels.sizeFit}</summary>
             {product.sizeGuide?.map((line) => <p key={line}>{line}</p>)}
+            {product.sizeMeasurements?.length ? (
+              <div className="size-table-wrap">
+                <table className="size-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">{labels.measurementSize}</th>
+                      <th scope="col">{labels.measurementWaist}</th>
+                      <th scope="col">{labels.measurementThigh}</th>
+                      <th scope="col">{labels.measurementLength}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {product.sizeMeasurements.map((measurement) => (
+                      <tr key={measurement.size}>
+                        <th scope="row">{measurement.size}</th>
+                        <td>{measurement.waist}</td>
+                        <td>{measurement.thigh}</td>
+                        <td>{measurement.length}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
           </details>
-          <details>
+          <details open>
             <summary>{labels.care}</summary>
             <ul>
               {product.careInstructions?.map((line) => <li key={line}>{line}</li>)}

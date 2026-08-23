@@ -198,6 +198,10 @@ const id = {
       "WhatsApp akan membuka percakapan; pesananmu dikonfirmasi setelah tim kami membalas.",
     details: "Detail",
     sizeFit: "Ukuran & fit",
+    measurementSize: "Ukuran",
+    measurementWaist: "Pinggang (cm)",
+    measurementThigh: "Paha (cm)",
+    measurementLength: "Panjang (cm)",
     care: "Perawatan",
   },
   notFound: {
