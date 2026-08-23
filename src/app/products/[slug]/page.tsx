@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const { slug } = await params;
   const product = getProductBySlug(slug, await getLocale());
   if (!product) return {};
-  const image = product.imagesByColor[product.variants[0].colorSlug][0];
+  const image = product.coverImage;
 
   return {
     title: product.name,
@@ -42,7 +42,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const product = getProductBySlug(slug, locale);
   if (!product) notFound();
 
-  const image = product.imagesByColor[product.variants[0].colorSlug][0];
+  const image = product.coverImage;
   const related = localizedProducts.filter(
     (candidate) => candidate.slug !== product.slug && candidate.category === product.category,
   ).slice(0, 4);

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState, type KeyboardEvent, type TouchEvent } from "react";
 import { siteConfig } from "@/config/site";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
@@ -24,6 +24,7 @@ export function ProductDetail({
   const [quantity, setQuantity] = useState(1);
   const [deliveryDestination, setDeliveryDestination] = useState<DeliveryDestination>();
   const [activeImage, setActiveImage] = useState(0);
+  const touchStartX = useRef<number | undefined>(undefined);
 
   const colors = useMemo(
     () =>
@@ -34,8 +35,9 @@ export function ProductDetail({
   );
 
   const sizes = Array.from(new Set(product.variants.map((variant) => variant.size)));
-  const galleryColor = selectedColor ?? colors[0].colorSlug;
-  const images = product.imagesByColor[galleryColor];
+  const images = selectedColor
+    ? product.imagesByColor[selectedColor]
+    : [product.coverImage];
   const selectedColorVariant = colors.find((color) => color.colorSlug === selectedColor);
   const selectedVariant = product.variants.find(
     (variant) =>
@@ -44,6 +46,7 @@ export function ProductDetail({
       variant.status !== "sold-out",
   );
   const selectedColorName = selectedColorVariant?.color;
+  const previewUnavailable = selectedColorVariant?.imagePreviewAvailable === false;
   const isPreOrder = selectedVariant?.status === "pre-order";
   const estimatedShipping = selectedVariant?.estimatedShipping
     ? formatOrderDate(selectedVariant.estimatedShipping, locale)
@@ -109,6 +112,41 @@ export function ProductDetail({
     setActiveImage(0);
   }
 
+  function showPreviousImage() {
+    setActiveImage((current) => (current - 1 + images.length) % images.length);
+  }
+
+  function showNextImage() {
+    setActiveImage((current) => (current + 1) % images.length);
+  }
+
+  function handleGalleryKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    if (images.length < 2) return;
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      showPreviousImage();
+    }
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      showNextImage();
+    }
+  }
+
+  function handleTouchStart(event: TouchEvent<HTMLDivElement>) {
+    touchStartX.current = event.touches[0]?.clientX;
+  }
+
+  function handleTouchEnd(event: TouchEvent<HTMLDivElement>) {
+    const startX = touchStartX.current;
+    touchStartX.current = undefined;
+    if (images.length < 2 || startX === undefined) return;
+
+    const endX = event.changedTouches[0]?.clientX;
+    if (endX === undefined || Math.abs(startX - endX) < 45) return;
+    if (startX > endX) showNextImage();
+    else showPreviousImage();
+  }
+
   function sizeIsAvailable(size: string) {
     return product.variants.some(
       (variant) =>
@@ -129,12 +167,18 @@ export function ProductDetail({
   return (
     <div className="product-detail shell">
       <div className="gallery" aria-label={`${product.name} ${labels.images}`}>
-        <div className="gallery-main">
+        <div
+          className="gallery-main"
+          tabIndex={images.length > 1 ? 0 : undefined}
+          onKeyDown={handleGalleryKeyDown}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
           <Image
             src={images[activeImage].src}
             alt={images[activeImage].alt}
             fill
-            preload
+            loading="eager"
             placeholder={images[activeImage].blurDataURL ? "blur" : "empty"}
             blurDataURL={images[activeImage].blurDataURL}
             sizes="(max-width: 899px) 100vw, 58vw"
@@ -144,18 +188,23 @@ export function ProductDetail({
               <button
                 type="button"
                 aria-label={labels.previousImage}
-                onClick={() => setActiveImage((activeImage - 1 + images.length) % images.length)}
+                onClick={showPreviousImage}
               >
                 ←
               </button>
               <button
                 type="button"
                 aria-label={labels.nextImage}
-                onClick={() => setActiveImage((activeImage + 1) % images.length)}
+                onClick={showNextImage}
               >
                 →
               </button>
             </div>
+          ) : null}
+          {images.length > 1 ? (
+            <span className="gallery-position" aria-live="polite">
+              {activeImage + 1} / {images.length}
+            </span>
           ) : null}
         </div>
         {images.length > 1 ? (
@@ -213,14 +262,14 @@ export function ProductDetail({
           </div>
         </fieldset>
 
-        {isPreOrder ? (
+        {isPreOrder || previewUnavailable ? (
           <div className="preorder-notice" role="status">
-            <strong>{labels.preOrder}</strong>
+            <strong>{isPreOrder ? labels.preOrder : selectedColorName}</strong>
             <p>
-              {labels.preOrderNotice}
-              {selectedColorVariant?.imagePreviewAvailable === false
-                ? ` ${labels.preOrderPreviewNotice}`
-                : ""}
+              {isPreOrder ? labels.preOrderNotice : null}
+              {previewUnavailable
+                ? `${isPreOrder ? " " : ""}${labels.preOrderPreviewNotice}`
+                : null}
               {estimatedShipping ? (
                 <>
                   {` ${labels.estimatedShipping}: `}

@@ -10,6 +10,7 @@ const navigation = [
   { key: "shop", href: "/#shop" },
   { key: "tops", href: "/tops" },
   { key: "bottoms", href: "/bottoms" },
+  { key: "accessories", href: "/accessories" },
   { key: "about", href: "/about-us" },
 ] as const;
 

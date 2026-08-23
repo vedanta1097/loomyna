@@ -11,8 +11,7 @@ export function ProductCard({
   labels: Dictionary["productCard"];
   product: Product;
 }) {
-  const firstVariant = product.variants[0];
-  const image = product.imagesByColor[firstVariant.colorSlug][0];
+  const image = product.coverImage;
   const colors = Array.from(
     new Map(product.variants.map((variant) => [variant.colorSlug, variant])).values(),
   );

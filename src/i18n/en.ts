@@ -11,6 +11,7 @@ const en = {
     shop: "Shop all",
     tops: "Tops",
     bottoms: "Bottoms",
+    accessories: "Accessories",
     mood: "Our mood",
     about: "About us",
   },
@@ -135,6 +136,14 @@ const en = {
       title: "Comfortable women's bottoms from Bali",
       description:
         "Easy silhouettes and cheerful colors made for stretching, strolling, traveling, and relaxed everyday outfits.",
+    },
+    accessories: {
+      metadataTitle: "Cute Women's Accessories from Bali",
+      metadataDescription:
+        "Shop Loomyna's cheerful bandanas and accessories from Bali, designed to add a playful finishing touch to everyday outfits.",
+      title: "Cute accessories from Bali",
+      description:
+        "Playful colors and sweet finishing touches made to brighten everyday outfits, holidays, and movement days.",
     },
   },
   productCard: {

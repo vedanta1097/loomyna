@@ -6,6 +6,7 @@ export type ProductImage = {
   alt: string;
   width: number;
   height: number;
+  view: "main" | "side" | "back" | "full";
   blurDataURL?: string;
 };
 
@@ -51,6 +52,7 @@ export type Product = {
   badges?: ProductBadge[];
   published: boolean;
   featured: boolean;
+  coverImage: ProductImage;
   imagesByColor: Record<string, ProductImage[]>;
   variants: ProductVariant[];
   addOns?: ProductAddOn[];

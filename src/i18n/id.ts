@@ -13,6 +13,7 @@ const id = {
     shop: "Belanja semua",
     tops: "Atasan",
     bottoms: "Bawahan",
+    accessories: "Aksesori",
     mood: "Suasana kami",
     about: "Tentang kami",
   },
@@ -137,6 +138,14 @@ const id = {
       title: "Bawahan wanita nyaman dari Bali",
       description:
         "Siluet santai dan warna ceria untuk peregangan, jalan-jalan, liburan, dan gaya nyaman sehari-hari.",
+    },
+    accessories: {
+      metadataTitle: "Aksesori Wanita Lucu dari Bali",
+      metadataDescription:
+        "Belanja bandana dan aksesori wanita Loomyna yang ceria dari Bali untuk melengkapi gaya sehari-hari.",
+      title: "Aksesori lucu dari Bali",
+      description:
+        "Warna ceria dan sentuhan manis untuk melengkapi gaya sehari-hari, liburan, dan aktivitasmu.",
     },
   },
   productCard: {

@@ -42,6 +42,9 @@ export const homeSections = [
       "rib-halter-neck",
       "loomy-crop-top",
       "loomy-inner-top",
+      "halter-neck-basic",
+      "bandana",
+      "bandana-rajut",
     ],
   },
 ] as const;

@@ -22,6 +22,7 @@ export function Footer({ dictionary }: { dictionary: Dictionary }) {
           <Link href="/#shop">{dictionary.navigation.shop}</Link>
           <Link href="/tops">{dictionary.navigation.tops}</Link>
           <Link href="/bottoms">{dictionary.navigation.bottoms}</Link>
+          <Link href="/accessories">{dictionary.navigation.accessories}</Link>
           <Link href="/about-us">{dictionary.navigation.about}</Link>
         </div>
         <div>
