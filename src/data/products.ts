@@ -178,7 +178,7 @@ const seeds: ProductSeed[] = [
   {
     slug: "loomy-crop-top",
     name: "Loomy Crop Top",
-    price: 80000,
+    price: 100000,
     category: "Tops",
     image: {
       src: "/assets/products/loomy-crop-top/main-v2.webp",
@@ -203,7 +203,7 @@ const seeds: ProductSeed[] = [
   {
     slug: "loomy-inner-top",
     name: "Loomy Inner Top",
-    price: 80000,
+    price: 100000,
     category: "Tops",
     image: {
       src: "/assets/products/loomy-inner-top/main-v2.webp",
@@ -422,7 +422,9 @@ export const products: Product[] = seeds.map((seed) => {
       : undefined);
 
   if (!coverSrc) {
-    throw new Error(`${seed.slug}: no product cover or color preview is available`);
+    throw new Error(
+      `${seed.slug}: no product cover or color preview is available`,
+    );
   }
 
   const coverImage: Product["coverImage"] = {
@@ -444,7 +446,8 @@ export const products: Product[] = seeds.map((seed) => {
     description: seed.blurb,
     category: seed.category,
     material:
-      seed.material ?? "Ask our team on WhatsApp for the latest fabric details.",
+      seed.material ??
+      "Ask our team on WhatsApp for the latest fabric details.",
     careInstructions: [
       "Wash gently with similar colors.",
       "Air dry in the shade to help preserve color and shape.",
