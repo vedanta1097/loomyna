@@ -64,7 +64,7 @@ for (const product of products) {
     const previewAvailable = colorVariants.some(
       (variant) => variant.imagePreviewAvailable !== false,
     );
-    const colorMainPath = `/assets/products/${product.slug}/${color}/main-v2.webp`;
+    const colorMainPath = `/assets/products/${product.slug}/${color}/main-v3.jpg`;
 
     if (previewAvailable && images[0]?.src !== colorMainPath) {
       errors.push(`${product.slug}: ${color} preview must start with ${colorMainPath}`);
@@ -91,7 +91,7 @@ for (const product of products) {
     for (const image of images) {
       if (!image.alt.trim()) errors.push(`${product.slug}: image is missing alt text`);
       if (!assetExists(image.src)) errors.push(`${product.slug}: missing ${image.src}`);
-      if (image.src.includes("main-v1")) {
+      if (/-v[12]\.(?:jpe?g|webp)$/i.test(image.src)) {
         errors.push(`${product.slug}: legacy image reference ${image.src}`);
       }
     }
