@@ -39,9 +39,9 @@ const seeds: ProductSeed[] = [
     price: 120000,
     category: "Tops",
     image: {
-      src: "/assets/products/halter-neck/main-v3.jpg",
-      width: 675,
-      height: 900,
+      src: "/assets/products/halter-neck/main-v2.webp",
+      width: 1500,
+      height: 2000,
       blurDataURL:
         "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAAAwAwCdASoQABQAPu1iqU2ppaOiMAgBMB2JY2VuVp4b8brAAP7sqa712fbgdYefUwRQyfFzamaFthPyjeZbpJF8tJLvH0MwKt+dgAAA",
     },
@@ -89,9 +89,9 @@ const seeds: ProductSeed[] = [
     price: 120000,
     category: "Bottoms",
     image: {
-      src: "/assets/products/linen-pants/main-v3.jpg",
-      width: 675,
-      height: 900,
+      src: "/assets/products/linen-pants/main-v2.webp",
+      width: 1500,
+      height: 2000,
       blurDataURL:
         "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAABwAwCdASoQABQAPu1orU6ppiSiMAgBMB2JZQCdMoAE7hbx9AAA/urCehZdw+DyPlpB06PcL84KsQp+7atkewNhnPzCzUYz7TiXNOmAAAA=",
     },
@@ -148,8 +148,8 @@ const seeds: ProductSeed[] = [
     price: 120000,
     category: "Tops",
     image: {
-      width: 675,
-      height: 900,
+      width: 1600,
+      height: 2000,
       blurDataURL:
         "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAACQAwCdASoQABQAPu1iqk2ppaQiMAgBMB2JZ12AVpATjtLkEiagAP7sGhGA/u8mINtYeS0w3FyFkujTpBvIgwolEqisxUhdbX2Y9WELrvf2YAAA",
     },
@@ -181,9 +181,9 @@ const seeds: ProductSeed[] = [
     price: 100000,
     category: "Tops",
     image: {
-      src: "/assets/products/loomy-crop-top/main-v3.jpg",
-      width: 720,
-      height: 900,
+      src: "/assets/products/loomy-crop-top/main-v2.webp",
+      width: 1600,
+      height: 2000,
       blurDataURL:
         "data:image/webp;base64,UklGRnAAAABXRUJQVlA4IGQAAACwAwCdASoQABQAPu1iqU2ppaOiMAgBMB2JZQC7ACHusNDWv6kEAAD+trjm9SPT6nN8MLi9g3x32mhjZ1j1q28ogxFkiVR0xkQOk1eU5w0VmLkwu9JavWc14NbjzuytUP24hAAA",
     },
@@ -206,9 +206,9 @@ const seeds: ProductSeed[] = [
     price: 100000,
     category: "Tops",
     image: {
-      src: "/assets/products/loomy-inner-top/main-v3.jpg",
-      width: 720,
-      height: 900,
+      src: "/assets/products/loomy-inner-top/main-v2.webp",
+      width: 1600,
+      height: 2000,
       blurDataURL:
         "data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAAAwBACdASoQABQAPu1iqU2ppaOiMAgBMB2JZQCdMoFWAAS6oKZVVQL01AAA/t7fhXKBmtVkyiSX4nX0dNNc5pS5PU1l3zTPnIRBAv0EISK94iEbrsKZPNpgQDV2ovRgtkuL63Dl6AiJBDoCWCkorwAA",
     },
@@ -227,8 +227,8 @@ const seeds: ProductSeed[] = [
     price: 100000,
     category: "Tops",
     image: {
-      width: 675,
-      height: 900,
+      width: 1500,
+      height: 2000,
       blurDataURL:
         "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAAAwAwCdASoQABQAPu1iqU2ppaOiMAgBMB2JY2VuVp4b8brAAP7sqa712fbgdYefUwRQyfFzamaFthPyjeZbpJF8tJLvH0MwKt+dgAAA",
     },
@@ -259,8 +259,8 @@ const seeds: ProductSeed[] = [
     price: 30000,
     category: "Accessories",
     image: {
-      width: 675,
-      height: 900,
+      width: 1500,
+      height: 2000,
       blurDataURL:
         "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAAAwAwCdASoQABQAPu1iqU2ppaOiMAgBMB2JY2VuVp4b8brAAP7sqa712fbgdYefUwRQyfFzamaFthPyjeZbpJF8tJLvH0MwKt+dgAAA",
     },
@@ -291,9 +291,9 @@ const seeds: ProductSeed[] = [
     price: 50000,
     category: "Accessories",
     image: {
-      src: "/assets/products/bandana-rajut/main-v3.jpg",
-      width: 675,
-      height: 900,
+      src: "/assets/products/bandana-rajut/main-v2.webp",
+      width: 1500,
+      height: 2000,
       blurDataURL:
         "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAAAwAwCdASoQABQAPu1iqU2ppaOiMAgBMB2JY2VuVp4b8brAAP7sqa712fbgdYefUwRQyfFzamaFthPyjeZbpJF8tJLvH0MwKt+dgAAA",
     },
@@ -418,7 +418,7 @@ export const products: Product[] = seeds.map((seed) => {
   const coverSrc =
     seed.image.src ??
     (firstReadyColor
-      ? `/assets/products/${seed.slug}/${firstReadyColor.slug}/main-v3.jpg`
+      ? `/assets/products/${seed.slug}/${firstReadyColor.slug}/main-v2.webp`
       : undefined);
 
   if (!coverSrc) {
@@ -430,8 +430,8 @@ export const products: Product[] = seeds.map((seed) => {
   const coverImage: Product["coverImage"] = {
     src: coverSrc,
     alt: `${seed.name}, product view`,
-    width: seed.image.src ? seed.image.width : 675,
-    height: seed.image.src ? seed.image.height : 900,
+    width: seed.image.src ? seed.image.width : 1500,
+    height: seed.image.src ? seed.image.height : 2000,
     view: "main",
     blurDataURL: seed.image.blurDataURL,
   };
@@ -467,10 +467,10 @@ export const products: Product[] = seeds.map((seed) => {
         color.slug,
         color.imageViews?.length
           ? color.imageViews.map((view) => ({
-              src: `/assets/products/${seed.slug}/${color.slug}/${view}-v3.jpg`,
+              src: `/assets/products/${seed.slug}/${color.slug}/${view}-v2.webp`,
               alt: `${seed.name} in ${color.name}, ${imageViewLabels[view]} view`,
-              width: 675,
-              height: 900,
+              width: 1500,
+              height: 2000,
               view,
             }))
           : [

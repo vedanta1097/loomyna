@@ -1,27 +1,21 @@
-source_dir="/Users/vedanta/Downloads/products-webp"
-output_dir="/Users/vedanta/Downloads/products-jpg"
+source_dir="/Users/vedanta/Documents/loomyna-assets/jpeg"
+output_dir="/Users/vedanta/Documents/loomyna-assets/webp"
 
 mkdir -p "$output_dir"
 
-find "$source_dir" -type f -iname '*.webp' -print0 |
+find "$source_dir" -type f \( -iname '*.jpg' -o -iname '*.jpeg' \) -print0 |
 while IFS= read -r -d '' file; do
-  relative="${file#"$source_dir"/}"
-  stem="${relative%.*}"
-
-  if [[ "$stem" == *-v2 ]]; then
-    stem="${stem%-v2}-v3"
-  fi
-
-  output="$output_dir/$stem.jpg"
+  relative="${file#$source_dir/}"
+  output="$output_dir/${relative%.*}.webp"
 
   mkdir -p "$(dirname "$output")"
 
   magick "$file" \
     -auto-orient \
-    -resize "x900>" \
+    -resize "x2000>" \
     -strip \
     -colorspace sRGB \
-    -quality 95 \
+    -quality 90 \
     "$output"
 
   echo "Created: $output"
