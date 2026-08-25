@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
       url: "/about-us",
       title: dictionary.about.metadataTitle,
       description: dictionary.about.metadataDescription,
-      images: ["/assets/banners/desktop/hero-banner.jpg"],
+      images: ["/assets/banners/desktop/og-image.jpg"],
     },
   };
 }
@@ -27,7 +27,10 @@ export default async function AboutPage() {
 
   return (
     <>
-      <nav className="breadcrumbs shell" aria-label={dictionary.productPage.breadcrumbLabel}>
+      <nav
+        className="breadcrumbs shell"
+        aria-label={dictionary.productPage.breadcrumbLabel}
+      >
         <Link href="/">{dictionary.productPage.home}</Link>
         <span aria-hidden="true">/</span>
         <span aria-current="page">{dictionary.about.eyebrow}</span>
@@ -41,7 +44,7 @@ export default async function AboutPage() {
           </div>
           <div className="about-image">
             <Image
-              src="/assets/banners/desktop/hero-banner-v1.webp"
+              src="/assets/banners/desktop/hero-banner-desktop-v2.jpg"
               alt={dictionary.home.heroAlt}
               fill
               preload
@@ -82,7 +85,13 @@ export default async function AboutPage() {
               {dictionary.about.email} <span>→</span>
             </a>
             {siteConfig.socialLinks.map((social) => (
-              <a key={social.label} className="text-link" href={social.href} target="_blank" rel="noreferrer">
+              <a
+                key={social.label}
+                className="text-link"
+                href={social.href}
+                target="_blank"
+                rel="noreferrer"
+              >
                 {social.label} <span>↗</span>
               </a>
             ))}

@@ -4,28 +4,17 @@ export const heroSlides: HeroSlide[] = [
   {
     id: "hero-banner",
     desktopImage: {
-      src: "/assets/banners/desktop/hero-banner-v1.webp",
-      width: 1920,
-      height: 1014,
+      src: "/assets/banners/desktop/hero-banner-desktop-v2.jpg",
+      width: 1137,
+      height: 600,
     },
     mobileImage: {
-      src: "/assets/banners/mobile/hero-banner-v1.webp",
-      width: 1440,
-      height: 2280,
+      src: "/assets/banners/mobile/hero-banner-mobile-v2.jpg",
+      width: 568,
+      height: 900,
     },
     imageAlt:
       "Two women by the sea wearing soft blue and butter yellow Loomyna tops",
-  },
-  {
-    id: "new-collection-mobile",
-    mobileOnly: true,
-    mobileImage: {
-      src: "/assets/banners/mobile/hero-banner-2.webp",
-      width: 1440,
-      height: 1920,
-    },
-    imageAlt:
-      "Loomyna's new collection displayed on a mannequin and clothing rack",
   },
 ];
 

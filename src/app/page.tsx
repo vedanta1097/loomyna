@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: siteConfig.name,
       title: dictionary.metadata.title,
       description: dictionary.metadata.description,
-      images: ["/assets/banners/desktop/hero-banner.jpg"],
+      images: ["/assets/banners/desktop/og-image.jpg"],
     },
   };
 }
