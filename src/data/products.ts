@@ -138,7 +138,6 @@ const seeds: ProductSeed[] = [
     badge: "new",
     sizeMeasurements: [
       { size: "S-M", waist: 100, thigh: 60, length: 105 },
-      { size: "L-XL", waist: 100, thigh: 70, length: 105 },
     ],
     shopeeUrl: "https://id.shp.ee/wDwqggxp",
   },
@@ -313,16 +312,9 @@ const seeds: ProductSeed[] = [
 ];
 
 function linenPantsVariants(includeReadySizes: boolean) {
-  return [
-    ...(includeReadySizes
-      ? [{ size: "S-M", status: "in-stock" as const }]
-      : []),
-    {
-      size: "L-XL",
-      status: "pre-order" as const,
-      estimatedCompletion: "2026-08-31",
-    },
-  ];
+  return includeReadySizes
+    ? [{ size: "S-M", status: "in-stock" as const }]
+    : [];
 }
 
 const indonesianProducts: Record<
