@@ -86,7 +86,7 @@ const seeds: ProductSeed[] = [
   {
     slug: "linen-pants",
     name: "Linen Pants",
-    price: 120000,
+    price: 130000,
     category: "Bottoms",
     image: {
       src: "/assets/products/linen-pants/main-v2.webp",
@@ -136,9 +136,7 @@ const seeds: ProductSeed[] = [
       "An easy, airy shape that brings a little sunshine to everyday dressing.",
     material: "Made from 100% cotton with a linen look. Soft and breathable.",
     badge: "new",
-    sizeMeasurements: [
-      { size: "S-M", waist: 100, thigh: 60, length: 105 },
-    ],
+    sizeMeasurements: [{ size: "S-M", waist: 100, thigh: 60, length: 105 }],
     shopeeUrl: "https://id.shp.ee/wDwqggxp",
   },
   {
