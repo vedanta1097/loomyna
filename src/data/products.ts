@@ -237,11 +237,10 @@ const seeds: ProductSeed[] = [
         imageViews: ["main", "side", "back", "full"],
       },
       {
-        name: "Winter White",
-        slug: "winter-white",
-        hex: "#F4F0E8",
-        status: "pre-order",
-        imagePreviewAvailable: false,
+        name: "Beige",
+        slug: "beige",
+        hex: "#D8C7AF",
+        imageViews: ["main"],
       },
     ],
     blurb:
