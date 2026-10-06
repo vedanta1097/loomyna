@@ -8,6 +8,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import { buildWhatsAppUrl, type DeliveryDestination } from "@/lib/checkout";
 import { formatIDR } from "@/lib/format";
 import type { Product } from "@/types/product";
+import { ColorPicker } from "./ColorPicker";
 
 export function ProductDetail({
   labels,
@@ -20,6 +21,9 @@ export function ProductDetail({
 }) {
   const [selectedColor, setSelectedColor] = useState<string>();
   const [selectedSize, setSelectedSize] = useState<string>();
+  const [orderMode, setOrderMode] = useState<"standard" | "custom">("standard");
+  const [sideA, setSideA] = useState("");
+  const [sideB, setSideB] = useState("");
   const [selectedAddOnIds, setSelectedAddOnIds] = useState<string[]>([]);
   const [quantity, setQuantity] = useState(1);
   const [deliveryDestination, setDeliveryDestination] = useState<DeliveryDestination>();
@@ -35,7 +39,8 @@ export function ProductDetail({
   );
 
   const sizes = Array.from(new Set(product.variants.map((variant) => variant.size)));
-  const images = selectedColor
+  const customMode = orderMode === "custom" && Boolean(product.customOrder);
+  const images = selectedColor && !customMode
     ? product.imagesByColor[selectedColor]
     : [product.coverImage];
   const selectedColorVariant = colors.find((color) => color.colorSlug === selectedColor);
@@ -46,8 +51,14 @@ export function ProductDetail({
       variant.status !== "sold-out",
   );
   const selectedColorName = selectedColorVariant?.color;
+  const chartColors = product.customOrder?.colors.map((color) => ({
+    value: color.name,
+    label: color.name,
+    hex: color.hex,
+  })) ?? [];
+  const sideAColor = product.customOrder?.colors.find((color) => color.name === sideA);
   const previewUnavailable = selectedColorVariant?.imagePreviewAvailable === false;
-  const isPreOrder = selectedVariant?.status === "pre-order";
+  const isPreOrder = customMode || selectedVariant?.status === "pre-order";
   const estimatedShipping = selectedVariant?.estimatedShipping
     ? formatOrderDate(selectedVariant.estimatedShipping, locale)
     : undefined;
@@ -58,10 +69,19 @@ export function ProductDetail({
     selectedAddOnIds.includes(addOn.id),
   );
   const unitPrice =
-    product.price + selectedAddOns.reduce((total, addOn) => total + addOn.price, 0);
-  const canCheckout = Boolean(selectedVariant);
+    (customMode ? product.customOrder!.price : product.price) +
+    selectedAddOns.reduce((total, addOn) => total + addOn.price, 0);
+  const canCheckout = customMode
+    ? Boolean(selectedSize && sideA)
+    : Boolean(selectedVariant);
   const canOrderWhatsApp = canCheckout && Boolean(deliveryDestination);
   const shopeeUrl = selectedVariant?.shopeeUrl ?? product.shopeeUrl;
+  const reversibleSides = customMode
+    ? (sideA ? { sideA, sideB: sideB || sideA } : undefined)
+    : selectedVariant?.reversibleSides;
+  const selectionName = reversibleSides
+    ? `${labels.sideA}: ${reversibleSides.sideA} · ${labels.sideB}: ${reversibleSides.sideB}`
+    : selectedColorName;
   const deliveryOptions: Array<{
     value: DeliveryDestination;
     label: string;
@@ -90,7 +110,7 @@ export function ProductDetail({
   const whatsappUrl = canOrderWhatsApp
     ? buildWhatsAppUrl({
         productName: product.name,
-        color: selectedColorName!,
+        color: customMode ? sideA : selectedColorName!,
         size: selectedSize!,
         quantity,
         formattedPrice: formatIDR(unitPrice * quantity),
@@ -99,7 +119,10 @@ export function ProductDetail({
           formattedUnitPrice: formatIDR(addOn.price),
         })),
         productUrl: `${siteConfig.url}/products/${product.slug}`,
-        orderType: selectedVariant!.status,
+        orderType: customMode ? "pre-order" : selectedVariant!.status,
+        customMade: customMode,
+        reversibleSides,
+        productionLeadTimeDays: isPreOrder ? product.preOrderLeadTimeDays : undefined,
         estimatedShipping,
         estimatedCompletion,
         deliveryDestination: deliveryDestination!,
@@ -108,6 +131,13 @@ export function ProductDetail({
 
   function chooseColor(colorSlug: string) {
     setSelectedColor(colorSlug);
+    setSelectedSize(undefined);
+    setActiveImage(0);
+  }
+
+  function chooseMode(mode: "standard" | "custom") {
+    setOrderMode(mode);
+    setSelectedColor(undefined);
     setSelectedSize(undefined);
     setActiveImage(0);
   }
@@ -148,6 +178,7 @@ export function ProductDetail({
   }
 
   function sizeIsAvailable(size: string) {
+    if (customMode) return sizes.includes(size);
     return product.variants.some(
       (variant) =>
         variant.colorSlug === selectedColor &&
@@ -178,6 +209,7 @@ export function ProductDetail({
             src={images[activeImage].src}
             alt={images[activeImage].alt}
             fill
+            unoptimized={images[activeImage].src.endsWith(".jpg")}
             loading="eager"
             placeholder={images[activeImage].blurDataURL ? "blur" : "empty"}
             blurDataURL={images[activeImage].blurDataURL}
@@ -221,6 +253,7 @@ export function ProductDetail({
                   src={image.src}
                   alt=""
                   fill
+                  unoptimized={image.src.endsWith(".jpg")}
                   placeholder={image.blurDataURL ? "blur" : "empty"}
                   blurDataURL={image.blurDataURL}
                   sizes="88px"
@@ -234,10 +267,36 @@ export function ProductDetail({
       <div className="product-panel">
         <p className="eyebrow">{product.category}</p>
         <h1>{product.name}</h1>
-        <p className="product-price">{formatIDR(product.price)}</p>
+        <p className="product-price">{formatIDR(unitPrice)}</p>
         <p className="product-description">{product.description}</p>
 
-        <fieldset className="option-group">
+        {product.customOrder ? (
+          <fieldset className="option-group">
+            <legend>{labels.orderStyle}</legend>
+            <div className="size-options">
+              <button
+                type="button"
+                className={!customMode ? "selected" : ""}
+                aria-pressed={!customMode}
+                onClick={() => chooseMode("standard")}
+              >
+                {labels.readyColorways} · {formatIDR(product.price)}
+              </button>
+              <button
+                type="button"
+                className={customMode ? "selected" : ""}
+                aria-pressed={customMode}
+                onClick={() => chooseMode("custom")}
+              >
+                {labels.customMade} · {formatIDR(product.customOrder.price)}
+              </button>
+            </div>
+            <p className="reversible-note">{labels.reversibleNote}</p>
+          </fieldset>
+        ) : null}
+
+        {!customMode ? (
+          <fieldset className="option-group">
           <legend>
             {labels.color} <span>{selectedColorName ?? labels.chooseColor}</span>
           </legend>
@@ -260,13 +319,64 @@ export function ProductDetail({
               </button>
             ))}
           </div>
-        </fieldset>
+          </fieldset>
+        ) : null}
+
+        {customMode && product.customOrder ? (
+          <fieldset className="option-group custom-colors">
+            <legend>{labels.customColors}</legend>
+            <p className="reversible-note">{labels.customColorsNote}</p>
+            <details className="color-chart-details" open>
+              <summary>{labels.viewColorChart}</summary>
+              <div className="color-chart-scroll">
+                <Image
+                  src={product.customOrder.colorChart.src}
+                  alt={labels.colorChartAlt}
+                  width={product.customOrder.colorChart.width}
+                  height={product.customOrder.colorChart.height}
+                  unoptimized
+                />
+              </div>
+              <a href={product.customOrder.colorChart.src} target="_blank" rel="noreferrer">
+                {labels.openFullColorChart}
+              </a>
+            </details>
+            <ColorPicker
+              id="bikini-side-a"
+              label={labels.sideA}
+              placeholder={labels.chooseChartColor}
+              searchLabel={labels.searchChartColors}
+              noMatches={labels.noMatchingColors}
+              value={sideA}
+              onChange={setSideA}
+              options={chartColors}
+            />
+            <ColorPicker
+              id="bikini-side-b"
+              label={labels.sideB}
+              placeholder={labels.chooseChartColor}
+              searchLabel={labels.searchChartColors}
+              noMatches={labels.noMatchingColors}
+              value={sideB}
+              onChange={setSideB}
+              options={[
+                { value: "", label: labels.sameAsSideA, hex: sideAColor?.hex ?? "#ffffff" },
+                ...chartColors,
+              ]}
+              disabled={!sideA}
+            />
+          </fieldset>
+        ) : null}
 
         {isPreOrder || previewUnavailable ? (
           <div className="preorder-notice" role="status">
             <strong>{isPreOrder ? labels.preOrder : selectedColorName}</strong>
             <p>
-              {isPreOrder ? labels.preOrderNotice : null}
+              {isPreOrder
+                ? product.preOrderLeadTimeDays === 7
+                  ? labels.oneWeekProduction
+                  : labels.preOrderNotice
+                : null}
               {previewUnavailable
                 ? `${isPreOrder ? " " : ""}${labels.preOrderPreviewNotice}`
                 : null}
@@ -288,11 +398,11 @@ export function ProductDetail({
 
         <fieldset className="option-group">
           <legend>
-            {labels.size} <span>{selectedSize ?? (selectedColor ? labels.chooseSize : labels.chooseColorFirst)}</span>
+            {labels.size} <span>{selectedSize ?? (customMode || selectedColor ? labels.chooseSize : labels.chooseColorFirst)}</span>
           </legend>
           <div className="size-options">
             {sizes.map((size) => {
-              const available = Boolean(selectedColor && sizeIsAvailable(size));
+              const available = Boolean((customMode || selectedColor) && sizeIsAvailable(size));
               const sizeVariant = product.variants.find(
                 (variant) =>
                   variant.colorSlug === selectedColor && variant.size === size,
@@ -307,7 +417,7 @@ export function ProductDetail({
                   onClick={() => setSelectedSize(size)}
                 >
                   {size}
-                  {sizeVariant?.status === "pre-order" ? (
+                  {(customMode || sizeVariant?.status === "pre-order") ? (
                     <span className="variant-status">{labels.preOrder}</span>
                   ) : null}
                 </button>
@@ -388,10 +498,12 @@ export function ProductDetail({
 
         <p className="selection-summary" aria-live="polite">
           {canOrderWhatsApp
-            ? `${selectedColorName} · ${selectedSize} · ${quantity} ${quantity === 1 ? labels.piece : labels.pieces}${selectedAddOns.length ? ` · + ${selectedAddOns.map((addOn) => addOn.name).join(", ")}` : ""}${isPreOrder ? ` · ${labels.preOrder}` : ""} · ${selectedDelivery?.label} · ${formatIDR(unitPrice * quantity)}`
+            ? `${customMode ? `${labels.customMade} · ` : ""}${selectionName} · ${selectedSize} · ${quantity} ${quantity === 1 ? labels.piece : labels.pieces}${selectedAddOns.length ? ` · + ${selectedAddOns.map((addOn) => addOn.name).join(", ")}` : ""}${isPreOrder ? ` · ${labels.preOrder}` : ""} · ${selectedDelivery?.label} · ${formatIDR(unitPrice * quantity)}`
             : canCheckout
               ? labels.selectDeliveryDestination
-            : labels.selectOptions}
+              : customMode
+                ? labels.selectCustomOptions
+                : labels.selectOptions}
         </p>
 
         <div className="checkout-actions">
@@ -404,7 +516,7 @@ export function ProductDetail({
               <WhatsAppIcon /> {isPreOrder ? labels.preOrderWhatsApp : labels.orderWhatsApp}
             </button>
           )}
-          {shopeeUrl && canCheckout && !isPreOrder ? (
+          {!product.webOnly ? shopeeUrl && canCheckout && !isPreOrder ? (
             <a className="button button-secondary" href={shopeeUrl} target="_blank" rel="noreferrer">
               {labels.buyShopee}
             </a>
@@ -412,10 +524,10 @@ export function ProductDetail({
             <button className="button button-secondary" type="button" disabled>
               {shopeeUrl ? labels.buyShopee : labels.shopeeSoon}
             </button>
-          )}
+          ) : null}
         </div>
         <p className="checkout-note">
-          {labels.checkoutNote}
+          {product.webOnly ? `${labels.webOnlyNotice} ` : ""}{labels.checkoutNote}
         </p>
 
         <div className="product-notes">

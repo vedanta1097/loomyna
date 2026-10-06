@@ -26,6 +26,7 @@ export const homeSections = [
     description:
       "Soft colors, sweet silhouettes, and easy pieces to stretch, stroll, and live in.",
     productSlugs: [
+      "bikini",
       "halter-neck",
       "linen-pants",
       "rib-halter-neck",

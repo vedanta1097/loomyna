@@ -67,6 +67,8 @@ input {
 
 button:focus-visible,
 a:focus-visible,
+input:focus-visible,
+select:focus-visible,
 summary:focus-visible {
   outline: 3px solid var(--blue);
   outline-offset: 3px;
@@ -1044,6 +1046,165 @@ summary:focus-visible {
   border: 2px solid white;
   border-radius: 50%;
   box-shadow: 0 0 0 1px rgba(20,45,89,.25);
+}
+
+.reversible-note {
+  margin: 13px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.custom-colors {
+  min-width: 0;
+}
+
+.custom-colors .reversible-note {
+  margin: 0 0 15px;
+}
+
+.color-chart-details {
+  margin-bottom: 18px;
+}
+
+.color-chart-details summary {
+  width: fit-content;
+  color: var(--blue);
+  cursor: pointer;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.color-chart-scroll {
+  overflow-x: auto;
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: white;
+}
+
+.color-chart-scroll img {
+  display: block;
+  width: max(1100px, 100%);
+  height: auto;
+}
+
+.color-chart-details a {
+  display: inline-block;
+  margin-top: 9px;
+  color: var(--blue);
+  font-size: 0.8rem;
+  text-decoration: underline;
+}
+
+.custom-color-label {
+  display: block;
+  margin: 0 0 6px;
+  color: var(--blue-deep);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.color-picker {
+  position: relative;
+  margin-top: 14px;
+}
+
+.color-picker-trigger {
+  display: flex;
+  width: 100%;
+  min-height: 46px;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.color-picker-trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.color-picker-swatch {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(20, 45, 89, 0.25);
+}
+
+.color-picker-chevron {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.color-picker-panel {
+  position: absolute;
+  z-index: 10;
+  top: calc(100% + 5px);
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+
+.color-picker-search {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 11px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.84rem;
+}
+
+.color-picker-listbox {
+  max-height: 278px;
+  overflow-y: auto;
+  margin-top: 6px;
+}
+
+.color-picker-option {
+  display: flex;
+  width: 100%;
+  min-height: 40px;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 9px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.84rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.color-picker-option:hover,
+.color-picker-option[aria-selected="true"] {
+  background: var(--sky);
+}
+
+.color-picker-empty {
+  margin: 0;
+  padding: 10px;
+  color: var(--muted);
+  font-size: 0.82rem;
 }
 
 .color-options .variant-status,

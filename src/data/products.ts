@@ -1,18 +1,27 @@
 import type { Product } from "@/types/product";
 import type { Locale } from "@/i18n/config";
+import { bikiniChartColors } from "./bikini-colors";
 
 type ProductSeed = {
   slug: string;
   skuPrefix?: string;
   name: string;
   price: number;
-  category: "Tops" | "Bottoms" | "Accessories";
+  category: "Tops" | "Bottoms" | "Accessories" | "Swimwear";
   image: { src?: string; width: number; height: number; blurDataURL: string };
+  imageExtension?: "webp" | "jpg";
   colors: {
     name: string;
     slug: string;
     hex: string;
     imageViews?: Array<"main" | "side" | "back" | "full">;
+    imageDimensions?: Partial<
+      Record<
+        "main" | "side" | "back" | "full",
+        { width: number; height: number }
+      >
+    >;
+    reversibleSides?: { sideA: string; sideB: string };
     status?: "in-stock" | "pre-order" | "sold-out";
     estimatedShipping?: string;
     imagePreviewAvailable?: boolean;
@@ -30,9 +39,75 @@ type ProductSeed = {
   sizeMeasurements?: Product["sizeMeasurements"];
   addOns?: { id: string; name: string; price: number }[];
   shopeeUrl?: string;
+  webOnly?: boolean;
+  preOrderLeadTimeDays?: number;
+  customOrder?: {
+    price: number;
+    colors: NonNullable<Product["customOrder"]>["colors"];
+    chartWidth: number;
+    chartHeight: number;
+  };
 };
 
 const seeds: ProductSeed[] = [
+  {
+    slug: "bikini",
+    skuPrefix: "BIKINI",
+    name: "Bikini",
+    price: 200000,
+    category: "Swimwear",
+    imageExtension: "jpg",
+    image: {
+      src: "/assets/products/bikini/main-v2.jpg",
+      width: 2231,
+      height: 2975,
+      blurDataURL: "",
+    },
+    colors: [
+      {
+        name: "Gulf Blue – Indigo",
+        slug: "gulf-blue-indigo",
+        hex: "linear-gradient(135deg, #9dc5d8 0 50%, #20395c 50% 100%)",
+        reversibleSides: { sideA: "Gulf Blue", sideB: "Indigo" },
+        imageViews: ["main", "back", "full"],
+        imageDimensions: {
+          main: { width: 3019, height: 4025 },
+          back: { width: 2387, height: 3183 },
+          full: { width: 1932, height: 2576 },
+        },
+        variants: [
+          { size: "S-M", status: "in-stock" },
+          { size: "L-XL", status: "pre-order" },
+        ],
+      },
+      {
+        name: "Yellow – Melrose",
+        slug: "yellow-melrose",
+        hex: "linear-gradient(135deg, #f0e7a4 0 50%, #9b6064 50% 100%)",
+        reversibleSides: { sideA: "Yellow", sideB: "Melrose" },
+        imageViews: ["main"],
+        imageDimensions: { main: { width: 3024, height: 4032 } },
+        variants: [
+          { size: "S-M", status: "in-stock" },
+          { size: "L-XL", status: "pre-order" },
+        ],
+      },
+    ],
+    blurb:
+      "A reversible two-piece bikini with a color on each side. Choose a ready colorway or make your own from our color chart.",
+    badge: "new",
+    sizeGuide: [
+      "Available in S-M and L-XL. Ask our team on WhatsApp for fit and measurements.",
+    ],
+    webOnly: true,
+    preOrderLeadTimeDays: 7,
+    customOrder: {
+      price: 250000,
+      colors: [...bikiniChartColors],
+      chartWidth: 2358,
+      chartHeight: 762,
+    },
+  },
   {
     slug: "halter-neck",
     name: "Halter Neck Two Tone",
@@ -336,6 +411,15 @@ const indonesianProducts: Record<
     },
     addOns: { "cup-bra": "Cup Bra" },
   },
+  bikini: {
+    name: "Bikini",
+    blurb:
+      "Bikini dua potong yang bisa dibalik, dengan warna di setiap sisi. Pilih kombinasi warna siap pakai atau buat pilihanmu sendiri dari bagan warna kami.",
+    colors: {
+      "gulf-blue-indigo": "Gulf Blue – Indigo",
+      "yellow-melrose": "Yellow – Melrose",
+    },
+  },
   "linen-pants": {
     name: "Celana Linen",
     blurb:
@@ -407,7 +491,7 @@ export const products: Product[] = seeds.map((seed) => {
   const coverSrc =
     seed.image.src ??
     (firstReadyColor
-      ? `/assets/products/${seed.slug}/${firstReadyColor.slug}/main-v2.webp`
+      ? `/assets/products/${seed.slug}/${firstReadyColor.slug}/main-v2.${seed.imageExtension ?? "webp"}`
       : undefined);
 
   if (!coverSrc) {
@@ -456,10 +540,10 @@ export const products: Product[] = seeds.map((seed) => {
         color.slug,
         color.imageViews?.length
           ? color.imageViews.map((view) => ({
-              src: `/assets/products/${seed.slug}/${color.slug}/${view}-v2.webp`,
+              src: `/assets/products/${seed.slug}/${color.slug}/${view}-v2.${seed.imageExtension ?? "webp"}`,
               alt: `${seed.name} in ${color.name}, ${imageViewLabels[view]} view`,
-              width: 1500,
-              height: 2000,
+              width: color.imageDimensions?.[view]?.width ?? 1500,
+              height: color.imageDimensions?.[view]?.height ?? 2000,
               view,
             }))
           : [
@@ -492,10 +576,26 @@ export const products: Product[] = seeds.map((seed) => {
         estimatedShipping: variant.estimatedShipping,
         estimatedCompletion: variant.estimatedCompletion,
         imagePreviewAvailable: color.imagePreviewAvailable ?? true,
+        reversibleSides: color.reversibleSides,
       })),
     ),
     addOns: seed.addOns,
     shopeeUrl: seed.shopeeUrl,
+    webOnly: seed.webOnly,
+    preOrderLeadTimeDays: seed.preOrderLeadTimeDays,
+    customOrder: seed.customOrder
+      ? {
+          price: seed.customOrder.price,
+          colors: seed.customOrder.colors,
+          colorChart: {
+            src: `/assets/products/${seed.slug}/color-chart/main-v2.jpg`,
+            alt: `${seed.name} custom color chart`,
+            width: seed.customOrder.chartWidth,
+            height: seed.customOrder.chartHeight,
+            view: "main",
+          },
+        }
+      : undefined,
   };
 });
 
@@ -520,14 +620,21 @@ export function getPublishedProducts(locale: Locale = "en") {
           ? "Atasan"
           : product.category === "Bottoms"
             ? "Bawahan"
-            : "Aksesori",
+            : product.category === "Accessories"
+              ? "Aksesori"
+              : "Pakaian renang",
       material:
         "Tanyakan detail bahan terbaru kepada tim kami melalui WhatsApp.",
       careInstructions: [
         "Cuci lembut bersama warna serupa.",
         "Keringkan dengan udara di tempat teduh untuk membantu menjaga warna dan bentuk.",
       ],
-      sizeGuide: ["Semua ukuran — hubungi kami untuk ukuran pakaian terbaru."],
+      sizeGuide:
+        product.slug === "bikini"
+          ? [
+              "Tersedia ukuran S-M dan L-XL. Tanyakan ukuran detail dan kecocokan melalui WhatsApp.",
+            ]
+          : ["Semua ukuran — hubungi kami untuk ukuran pakaian terbaru."],
       ...(product.slug === "linen-pants"
         ? {
             material:

@@ -21,6 +21,13 @@ export type ProductVariant = {
   estimatedCompletion?: string;
   imagePreviewAvailable?: boolean;
   shopeeUrl?: string;
+  reversibleSides?: { sideA: string; sideB: string };
+};
+
+export type ProductCustomOrder = {
+  price: number;
+  colorChart: ProductImage;
+  colors: { name: string; hex: string }[];
 };
 
 export type ProductAddOn = {
@@ -57,6 +64,9 @@ export type Product = {
   variants: ProductVariant[];
   addOns?: ProductAddOn[];
   shopeeUrl?: string;
+  webOnly?: boolean;
+  preOrderLeadTimeDays?: number;
+  customOrder?: ProductCustomOrder;
 };
 
 export type HeroSlide = {

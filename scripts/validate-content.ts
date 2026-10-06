@@ -32,6 +32,20 @@ for (const product of products) {
   if (product.coverImage.view !== "main") {
     errors.push(`${product.slug}: cover image must use the main view`);
   }
+  if (product.customOrder) {
+    if (!Number.isInteger(product.customOrder.price) || product.customOrder.price <= 0) {
+      errors.push(`${product.slug}: custom price must be a positive integer`);
+    }
+    if (!assetExists(product.customOrder.colorChart.src)) {
+      errors.push(`${product.slug}: missing custom color chart`);
+    }
+    const chartColors = product.customOrder.colors;
+    if (chartColors.length === 0 ||
+      new Set(chartColors.map((color) => color.name)).size !== chartColors.length ||
+      chartColors.some((color) => !/^#[0-9a-f]{6}$/i.test(color.hex))) {
+      errors.push(`${product.slug}: custom chart colors must be nonempty and unique`);
+    }
+  }
 
   for (const variant of product.variants) {
     if (skus.has(variant.sku)) errors.push(`Duplicate SKU: ${variant.sku}`);
@@ -64,15 +78,15 @@ for (const product of products) {
     const previewAvailable = colorVariants.some(
       (variant) => variant.imagePreviewAvailable !== false,
     );
-    const colorMainPath = `/assets/products/${product.slug}/${color}/main-v2.webp`;
+    const expectedColorMainPath = `/assets/products/${product.slug}/${color}/main-v2.${product.coverImage.src.endsWith(".jpg") ? "jpg" : "webp"}`;
 
-    if (previewAvailable && images[0]?.src !== colorMainPath) {
-      errors.push(`${product.slug}: ${color} preview must start with ${colorMainPath}`);
+    if (previewAvailable && images[0]?.src !== expectedColorMainPath) {
+      errors.push(`${product.slug}: ${color} preview must start with ${expectedColorMainPath}`);
     }
-    if (previewAvailable && !assetExists(colorMainPath)) {
-      errors.push(`${product.slug}: ${color} is preview-ready but ${colorMainPath} is missing`);
+    if (previewAvailable && !assetExists(expectedColorMainPath)) {
+      errors.push(`${product.slug}: ${color} is preview-ready but ${expectedColorMainPath} is missing`);
     }
-    if (!previewAvailable && assetExists(colorMainPath)) {
+    if (!previewAvailable && assetExists(expectedColorMainPath)) {
       errors.push(`${product.slug}: ${color} has a preview image but imagePreviewAvailable is false`);
     }
 

@@ -11,6 +11,9 @@ type WhatsAppOrder = {
   addOns?: { name: string; formattedUnitPrice: string }[];
   productUrl: string;
   orderType: ProductVariantStatus;
+  customMade?: boolean;
+  reversibleSides?: { sideA: string; sideB: string };
+  productionLeadTimeDays?: number;
   estimatedShipping?: string;
   estimatedCompletion?: string;
   deliveryDestination: DeliveryDestination;
@@ -25,7 +28,13 @@ export function buildWhatsAppUrl(order: WhatsAppOrder, locale: Locale = "en") {
         "Halo Loomyna, saya ingin memesan:",
         "",
         `Produk: ${order.productName}`,
-        `Warna: ${order.color}`,
+        ...(order.reversibleSides
+          ? [
+              `Sisi A: ${order.reversibleSides.sideA}`,
+              `Sisi B: ${order.reversibleSides.sideB}`,
+            ]
+          : [`Warna: ${order.color}`]),
+        ...(order.customMade ? ["Jenis: Custom made"] : []),
         `Ukuran: ${order.size}`,
         `Jumlah: ${order.quantity}`,
         `Tujuan pengiriman: ${delivery.destination}`,
@@ -46,6 +55,9 @@ export function buildWhatsAppUrl(order: WhatsAppOrder, locale: Locale = "en") {
               ...(order.estimatedCompletion
                 ? [`Estimasi selesai produksi: ${order.estimatedCompletion}`]
                 : []),
+              ...(order.productionLeadTimeDays === 7
+                ? ["Perkiraan produksi: sekitar 1 minggu setelah pesanan dikonfirmasi; waktu pengiriman tambahan."]
+                : []),
             ]
           : []),
         `Tautan produk: ${order.productUrl}`,
@@ -54,7 +66,13 @@ export function buildWhatsAppUrl(order: WhatsAppOrder, locale: Locale = "en") {
         "Hi Loomyna, I would like to order:",
         "",
         `Product: ${order.productName}`,
-        `Color: ${order.color}`,
+        ...(order.reversibleSides
+          ? [
+              `Side A: ${order.reversibleSides.sideA}`,
+              `Side B: ${order.reversibleSides.sideB}`,
+            ]
+          : [`Color: ${order.color}`]),
+        ...(order.customMade ? ["Type: Custom made"] : []),
         `Size: ${order.size}`,
         `Quantity: ${order.quantity}`,
         `Delivery destination: ${delivery.destination}`,
@@ -74,6 +92,9 @@ export function buildWhatsAppUrl(order: WhatsAppOrder, locale: Locale = "en") {
                 : []),
               ...(order.estimatedCompletion
                 ? [`Estimated production completion: ${order.estimatedCompletion}`]
+                : []),
+              ...(order.productionLeadTimeDays === 7
+                ? ["Production estimate: about 1 week after order confirmation; delivery takes additional time."]
                 : []),
             ]
           : []),

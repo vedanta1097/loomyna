@@ -54,13 +54,33 @@ export default async function ProductPage({ params }: ProductPageProps) {
     description: product.shortDescription,
     sku: product.variants[0].sku,
     brand: { "@type": "Brand", name: "Loomyna" },
-    offers: {
-      "@type": "Offer",
-      url: `${siteConfig.url}/products/${product.slug}`,
-      priceCurrency: product.currency,
-      price: product.price,
-      availability: "https://schema.org/InStock",
-    },
+    offers: product.customOrder
+      ? [
+          ...product.variants.map((variant) => ({
+            "@type": "Offer",
+            url: `${siteConfig.url}/products/${product.slug}`,
+            sku: variant.sku,
+            priceCurrency: product.currency,
+            price: product.price,
+            availability: variant.status === "in-stock"
+              ? "https://schema.org/InStock"
+              : "https://schema.org/PreOrder",
+          })),
+          {
+            "@type": "Offer",
+            url: `${siteConfig.url}/products/${product.slug}`,
+            priceCurrency: product.currency,
+            price: product.customOrder.price,
+            availability: "https://schema.org/PreOrder",
+          },
+        ]
+      : {
+          "@type": "Offer",
+          url: `${siteConfig.url}/products/${product.slug}`,
+          priceCurrency: product.currency,
+          price: product.price,
+          availability: "https://schema.org/InStock",
+        },
   };
 
   return (
