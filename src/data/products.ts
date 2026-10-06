@@ -53,7 +53,7 @@ const seeds: ProductSeed[] = [
   {
     slug: "bikini",
     skuPrefix: "BIKINI",
-    name: "Bikini",
+    name: "Bikini Two Tone",
     price: 200000,
     category: "Swimwear",
     imageExtension: "jpg",
@@ -210,7 +210,6 @@ const seeds: ProductSeed[] = [
     blurb:
       "An easy, airy shape that brings a little sunshine to everyday dressing.",
     material: "Made from 100% cotton with a linen look. Soft and breathable.",
-    badge: "new",
     sizeMeasurements: [{ size: "S-M", waist: 100, thigh: 60, length: 105 }],
     shopeeUrl: "https://id.shp.ee/wDwqggxp",
   },
@@ -243,7 +242,6 @@ const seeds: ProductSeed[] = [
     ],
     blurb:
       "A clean ribbed halter made for pairing, layering, and moving freely.",
-    badge: "new",
     addOns: [{ id: "cup-bra", name: "Cup Bra", price: 22000 }],
     shopeeUrl: "https://id.shp.ee/Y1bqzbUf",
   },
@@ -320,7 +318,6 @@ const seeds: ProductSeed[] = [
     ],
     blurb:
       "A clean everyday halter with an easy fit for movement, layering, and sunny plans.",
-    badge: "new",
     addOns: [{ id: "cup-bra", name: "Cup Bra", price: 22000 }],
     shopeeUrl: "https://id.shp.ee/4cNiaNe6",
   },
@@ -353,7 +350,6 @@ const seeds: ProductSeed[] = [
     ],
     blurb:
       "A playful finishing touch for tying up your hair or adding a cheerful accent to your look.",
-    badge: "new",
     shopeeUrl: "https://id.shp.ee/W2ZqDDwX",
   },
   {
@@ -379,7 +375,6 @@ const seeds: ProductSeed[] = [
     ],
     blurb:
       "A soft knitted bandana that brings a handmade pop of color to everyday outfits.",
-    badge: "new",
   },
 ];
 
