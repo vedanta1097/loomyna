@@ -345,8 +345,6 @@ export function ProductDetail({
               id="bikini-side-a"
               label={labels.sideA}
               placeholder={labels.chooseChartColor}
-              searchLabel={labels.searchChartColors}
-              noMatches={labels.noMatchingColors}
               value={sideA}
               onChange={setSideA}
               options={chartColors}
@@ -355,8 +353,6 @@ export function ProductDetail({
               id="bikini-side-b"
               label={labels.sideB}
               placeholder={labels.chooseChartColor}
-              searchLabel={labels.searchChartColors}
-              noMatches={labels.noMatchingColors}
               value={sideB}
               onChange={setSideB}
               options={[

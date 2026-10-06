@@ -185,8 +185,6 @@ const en = {
     sideA: "Side A",
     sideB: "Side B",
     chooseChartColor: "Choose a chart color",
-    searchChartColors: "Search chart colors",
-    noMatchingColors: "No matching colors",
     sameAsSideA: "Same as Side A",
     selectCustomOptions: "Choose a Side A color and size to order.",
     oneWeekProduction: "Production takes about one week after order confirmation; delivery takes additional time.",

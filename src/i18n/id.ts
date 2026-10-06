@@ -187,8 +187,6 @@ const id = {
     sideA: "Sisi A",
     sideB: "Sisi B",
     chooseChartColor: "Pilih warna dari bagan",
-    searchChartColors: "Cari warna dari bagan",
-    noMatchingColors: "Warna tidak ditemukan",
     sameAsSideA: "Sama dengan Sisi A",
     selectCustomOptions: "Pilih warna Sisi A dan ukuran untuk memesan.",
     oneWeekProduction: "Produksi membutuhkan sekitar satu minggu setelah pesanan dikonfirmasi; waktu pengiriman tambahan.",
